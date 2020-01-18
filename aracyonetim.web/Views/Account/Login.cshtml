@@ -1,0 +1,75 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+
+    <title>Alpata Araç Yönetim</title>
+
+    <!-- vendor css -->
+    <link href="~/lib/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="~/assets/css/dashforge.css">
+    <link rel="stylesheet" href="~/assets/css/dashforge.auth.css">
+  </head>
+  <body>
+
+    <div class="content content-fixed content-auth">
+      <div class="container">
+        <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
+          <div class="media-body align-items-center d-none d-lg-flex">
+            <div class="mx-wd-600">
+              <img src="~/assets/img/img15.png" class="img-fluid" alt="">
+            </div>
+          </div><!-- media-body -->
+          <div class="sign-wrapper mg-lg-l-50 mg-xl-l-60">
+            <form method="post" action="/Account/Login" class="wd-100p">
+              <h3 class="tx-color-01 mg-b-5">Alpata Araç Yönetim</h3>
+              <p class="tx-color-03 tx-16 mg-b-40">Hoş geldiniz!Bilgileri doldurarak sisteme giriş yapabilirsiniz.</p>
+
+              <div class="form-group">
+                <label>Eposta</label>
+                <input type="email" name="eposta" class="form-control" placeholder="eposta@mailadresin.com">
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-between mg-b-5">
+                  <label class="mg-b-0-f">Parola</label>
+                  <a href="" class="tx-13">Parolamı Unuttum.</a>
+                </div>
+                <input type="password" name="parola" class="form-control" placeholder="Parolanı gir">
+              </div>
+              <button type="submit" class="btn btn-brand-02 btn-block">GİRİŞ</button>
+              <div class="divider-text">yada</div>
+              <div class="tx-13 mg-t-20 tx-center">Hesabın yok mu? <a href="/Account/Register">Hesap Oluştur</a></div>
+            </form>
+          </div><!-- sign-wrapper -->
+        </div><!-- media -->
+      </div><!-- container -->
+    </div><!-- content -->
+
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/feather-icons/feather.min.js"></script>
+    <script src="~/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+    <script src="~/assets/js/dashforge.js"></script>
+
+    <!-- append theme customizer -->
+    <script src="~/lib/js-cookie/js.cookie.js"></script>
+    <script src="~/assets/js/dashforge.settings.js"></script>
+
+  </body>
+</html>

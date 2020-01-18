@@ -1,0 +1,35 @@
+//Kullanıcı Tarafı:
+//Kullanıcı web uygulamasına girerek kendini kaydedecek. Bu bilgiler araç bilgileri ve kendi kişisel bilgileri olacaktır.
+
+Araç Bilgileri Ekranında aşagıdaki verilen alınacak.(Ekleme, Silme, Güncelleme, Listeleme ışlemleri Yapılabilecektir.)
+Araç Bilgileri Kayıt : marka-model-motor tipi, ticari/binek, yıl-km-dizel/benzinli/lpgli, otomatik-manuel, plaka, ruhsat sahibi adı-soyadi, En son Bakım Yetkiliserviste mi yapıldı özel serviste mi?
+
+Müşteri Bilgileri Ekranında aşagıdaki verilen alınacak.(Ekleme, Silme, Güncelleme, Listeleme ışlemleri Yapılabilecektir.)
+Müşteri Bilgileri Kayıt : username/password oluştur. Email = username. Kontak Ad-soyad ve şirket adı, telefon no ev-şirket,cinsiyet,  telefonno cep, tcno(opsiyonel), meslek, il-ilçe-adres, şirket aracı checkbox I olacak, eger şirket aracı ise şirket ad ve adresi girilecek.
+
+
+YETKıLı SERVıS TARAFI.
+
+
+Yapılması gereken işlemler : 
+           Bakım Talebi :Kullanıcı önce araç seçimi yapacak sonrasında bakım talebi istenilen tarih, araç da ki arızaları ve bakım taleplerinin yazıldıgı bir alana açıklama olarak veri girişi yapacak.
+Sonrasında oluşturulan bakım talebi Yetkili Servis ekranında ;
+Bekleyen Servis Talepleri: listesine düşecek. Yetkili servis bu listede gelen talepleri onayladıktan sonra. Talep açan kullanıcının onay bekleyen talepler sayfasından bu talep gidecek ve onaylanmış taleplerim sayfasına düşecek.
+
+
+
+Bu projede user interface tarafında devextreme ve bootstrap, code behind tarafında ise code first, generic repository kullanılmasını beklemekteyiz. Alternatif olarak jquery ve javascript componentleri  ve herhangi bir orm de kullanılabilir.
+
+
+/benim eklediklerim
+Mail Bilgilendirme
+    Kayıt Onay
+
+bu temaya geçir
+http://themepixels.me/dashforge/template/classic-plus/dashboard-one.html
+
+/kontroller
+int alanlara string girilme kontrolu
+login yanlış şifre alert gösterimi
+musteri adres il düzenleme
+
