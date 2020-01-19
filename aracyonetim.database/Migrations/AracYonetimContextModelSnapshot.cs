@@ -19,6 +19,37 @@ namespace aracyonetim.database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("aracyonetim.entities.Dtos.ChartDto", b =>
+                {
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Isim")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Sayi")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasIndex("FirmaId");
+
+                    b.ToTable("ChartDto");
+                });
+
             modelBuilder.Entity("aracyonetim.entities.Tables.Arac", b =>
                 {
                     b.Property<int>("Id")
@@ -34,6 +65,9 @@ namespace aracyonetim.database.Migrations
 
                     b.Property<bool>("EnSonBakimYetkiliServis")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -77,6 +111,8 @@ namespace aracyonetim.database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FirmaId");
+
                     b.HasIndex("MarkaId");
 
                     b.HasIndex("YakitId");
@@ -111,6 +147,9 @@ namespace aracyonetim.database.Migrations
                     b.Property<int>("DurumId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -130,9 +169,48 @@ namespace aracyonetim.database.Migrations
 
                     b.HasIndex("DurumId");
 
+                    b.HasIndex("FirmaId");
+
                     b.HasIndex("KullaniciId");
 
                     b.ToTable("BakimTalebi");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.Firma", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId1")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Isim")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId1");
+
+                    b.ToTable("Firma");
                 });
 
             modelBuilder.Entity("aracyonetim.entities.Tables.Kullanici", b =>
@@ -162,6 +240,9 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("IlceId")
                         .HasColumnType("int");
 
@@ -172,6 +253,9 @@ namespace aracyonetim.database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
 
                     b.Property<short>("Status")
                         .HasColumnType("smallint");
@@ -187,6 +271,10 @@ namespace aracyonetim.database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FirmaId");
+
+                    b.HasIndex("RolId");
+
                     b.ToTable("Kullanici");
                 });
 
@@ -201,6 +289,9 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -221,6 +312,8 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
 
                     b.ToTable("LookupList");
 
@@ -12602,6 +12695,9 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -12632,13 +12728,277 @@ namespace aracyonetim.database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FirmaId");
+
                     b.HasIndex("KullaniciId");
 
                     b.ToTable("Musteri");
                 });
 
+            modelBuilder.Entity("aracyonetim.entities.Tables.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Isim")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.ToTable("Rol");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 498815,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Admin",
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498823,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Kullanıcı",
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498828,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Yetkili Servis",
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498831,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Müşteri",
+                            Status = (short)0
+                        });
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.RolMenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MenuNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.HasIndex("RolId");
+
+                    b.ToTable("RolMenu");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 498816,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 1,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498817,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 2,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498818,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 3,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498819,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 4,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498820,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 5,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498821,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 6,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498822,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 7,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498824,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 1,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498825,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 2,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498826,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 3,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498827,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 4,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498829,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 1,
+                            RolId = 498828,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498830,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 5,
+                            RolId = 498828,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498832,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 4,
+                            RolId = 498831,
+                            Status = (short)0
+                        });
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Dtos.ChartDto", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+                });
+
             modelBuilder.Entity("aracyonetim.entities.Tables.Arac", b =>
                 {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
                     b.HasOne("aracyonetim.entities.Tables.LookupList", "Marka")
                         .WithMany()
                         .HasForeignKey("MarkaId");
@@ -12662,6 +13022,10 @@ namespace aracyonetim.database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
                     b.HasOne("aracyonetim.entities.Tables.Kullanici", "Kullanici")
                         .WithMany()
                         .HasForeignKey("KullaniciId")
@@ -12669,11 +13033,62 @@ namespace aracyonetim.database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("aracyonetim.entities.Tables.Firma", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId1");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.Kullanici", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.HasOne("aracyonetim.entities.Tables.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.LookupList", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+                });
+
             modelBuilder.Entity("aracyonetim.entities.Tables.Musteri", b =>
                 {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
                     b.HasOne("aracyonetim.entities.Tables.Kullanici", "Kullanici")
                         .WithMany()
                         .HasForeignKey("KullaniciId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.Rol", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.RolMenu", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.HasOne("aracyonetim.entities.Tables.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

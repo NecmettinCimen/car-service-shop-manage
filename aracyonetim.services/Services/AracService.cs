@@ -8,12 +8,12 @@ namespace aracyonetim.services.Services
 {
     public interface IAracService
     {
-        public  Task<DataGridDto<AracListDto>> List();
-        public  Task<DataGridDto<DxSelectDto>> Select();
+        public  Task<DataGridDto<AracListDto>> List(int firmaid);
+        public  Task<DataGridDto<DxSelectDto>> Select(int firmaid);
         public Task<int> Save(Arac model);
         public Task<bool> Update(Arac model);
-        public Task Delete(int id);
-        public Task<Arac> Get(int id);
+        public Task Delete(int id, int firmaid);
+        public Task<Arac> Get(int id,int firmaid);
     }
     public class AracService:IAracService
     {
@@ -30,9 +30,9 @@ namespace aracyonetim.services.Services
             _kullaniciRepository = kullaniciRepository;
         }
 
-        public async Task<DataGridDto<AracListDto>> List()
+        public async Task<DataGridDto<AracListDto>> List(int firmaid)
         {
-            return await GenerateDataGridDto<AracListDto>.Store((from a in _aracRepository.All()
+            return await GenerateDataGridDto<AracListDto>.Store((from a in _aracRepository.All().Where(w=>w.FirmaId == firmaid)
                     join m in _lookupListRepository.All() on a.MarkaId equals  m.Id into mn
                     from m in mn.DefaultIfEmpty()
                     join y in _lookupListRepository.All() on a.YakitId equals  y.Id into yn
@@ -57,10 +57,10 @@ namespace aracyonetim.services.Services
                     ));
         }
         
-        public async Task<DataGridDto<DxSelectDto>> Select()
+        public async Task<DataGridDto<DxSelectDto>> Select(int firmaid)
         {
             return await GenerateDataGridDto<DxSelectDto>.Store(
-                _aracRepository.All().Select(s=>new DxSelectDto{id = s.Id, text = s.Plaka}));
+                _aracRepository.All(firmaid).Select(s=>new DxSelectDto{id = s.Id, text = s.Plaka}));
         }
 
         public async Task<int> Save(Arac model)
@@ -74,14 +74,14 @@ namespace aracyonetim.services.Services
             return true;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int id, int firmaid)
         {
-            await _aracRepository.Delete(id);
+            await _aracRepository.Delete(id, firmaid);
         }
 
-        public async Task<Arac> Get(int id)
+        public async Task<Arac> Get(int id,int firmaid)
         {
-            return await _aracRepository.Get(id);
+            return await _aracRepository.Get(id, firmaid);
         }
     }
 }

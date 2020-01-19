@@ -9,11 +9,11 @@ namespace aracyonetim.services.Services
 {
     public interface IMusteriService
     {
-        public  Task<DataGridDto<MusteriListDto>> List();
+        public  Task<DataGridDto<MusteriListDto>> List(int firmaid);
         public Task<int> Save(Musteri model);
         public Task<bool> Update(Musteri model);
-        public Task Delete(int id);
-        public Task<Musteri> Get(int id);
+        public Task Delete(int id, int firmaid);
+        public Task<Musteri> Get(int id, int firmaid);
     }
     public class MusteriService:IMusteriService
     {
@@ -30,9 +30,9 @@ namespace aracyonetim.services.Services
             _lookupListRepository = lookupListRepository;
         }
 
-        public async Task<DataGridDto<MusteriListDto>> List()
+        public async Task<DataGridDto<MusteriListDto>> List(int firmaid)
         {
-            return await GenerateDataGridDto<MusteriListDto>.Store((from a in _musteriRepository.All()
+            return await GenerateDataGridDto<MusteriListDto>.Store((from a in _musteriRepository.All().Where(w=>w.FirmaId == firmaid)
                     join u in _kullaniciRepository.All() on a.KullaniciId equals  u.Id
                     join ilce in _lookupListRepository.All() on u.IlceId equals  ilce.Id into ilcen
                     from ilce in ilcen.DefaultIfEmpty()
@@ -69,14 +69,14 @@ namespace aracyonetim.services.Services
             return true;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int id, int firmaid)
         {
-            await _musteriRepository.Delete(id);
+            await _musteriRepository.Delete(id, firmaid);
         }
 
-        public async Task<Musteri> Get(int id)
+        public async Task<Musteri> Get(int id, int firmaid)
         {
-            return await _musteriRepository.All().Where(f=>f.Id==id).FirstAsync();
+            return await _musteriRepository.All().Where(f=>f.Id==id && f.FirmaId == firmaid).FirstAsync();
         }
     }
 }

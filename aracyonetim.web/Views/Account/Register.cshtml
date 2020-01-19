@@ -12,17 +12,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png" asp-append-version="true">
 
     <title>Alpata Araç Yönetim</title>
 
     <!-- vendor css -->
-    <link href="~/lib/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="~/lib/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet" asp-append-version="true">
 
     <!-- DashForge CSS -->
-    <link rel="stylesheet" href="~/assets/css/dashforge.css">
-    <link rel="stylesheet" href="~/assets/css/dashforge.auth.css">
+    <link rel="stylesheet" href="~/assets/css/dashforge.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/assets/css/dashforge.auth.css" asp-append-version="true">
 </head>
 <body>
 
@@ -31,37 +31,46 @@
     <div class="container">
         <div class="media align-items-stretch justify-content-center ht-100p">
             <div class="sign-wrapper mg-lg-r-50 mg-xl-r-60">
-                <div class="pd-t-20 wd-100p">
+                <form action="/Account/Register" method="post" class="pd-t-20 wd-100p">
                     <h4 class="tx-color-01 mg-b-5">Yeni Hesap Oluştur</h4>
                     <p class="tx-color-03 tx-16 mg-b-40">Tamamen ücretsiz sadece bir kaç dakikanı alır.</p>
 
+              @if (Model)
+              {
+                <div class="alert alert-danger">Eposta sistemde kayıtlı. Lütfen başka bir eposta adresi giriniz.</div>
+              }
+                    <div class="form-group">
+                        <label>Firma Unvan</label>
+                        <input type="text" maxlength="100" name="Firma.Isim" required class="form-control" placeholder="Lütfen firma unvanınızı giriniz.">
+                    </div>
+                    
                     <div class="form-group">
                         <label>Ad Soyad</label>
-                        <input type="text" name="AdSoyad" required class="form-control" placeholder="Lütfen adınız ve soyadınızı giriniz.">
+                        <input type="text" name="AdSoyad" maxlength="100" required class="form-control" placeholder="Lütfen adınız ve soyadınızı giriniz.">
                     </div>
                     <div class="form-group">
                         <label>Eposta</label>
-                        <input type="text" name="Eposta" required class="form-control" placeholder="Lütfen eposta adresinizi giriniz.">
+                        <input type="text" name="Eposta" maxlength="100" required class="form-control" placeholder="Lütfen eposta adresinizi giriniz.">
                     </div>
                     <div class="form-group">
                         <label>Telefon</label>
-                        <input type="text" name="Telefon" required class="form-control" placeholder="Lütfen telefon numaranızı giriniz.">
+                        <input type="number" maxlength="15" name="Telefon" required class="form-control" placeholder="Lütfen telefon numaranızı giriniz.">
                     </div>
                     <div class="form-group">
                         <div class="d-flex justify-content-between mg-b-5">
                             <label class="mg-b-0-f">Parola</label>
                         </div>
-                        <input type="password" name="Parola" required class="form-control" placeholder="Lütfen bir parola belirleyiniz.">
+                        <input type="password" maxlength="100" name="Parola" required class="form-control" placeholder="Lütfen bir parola belirleyiniz.">
                     </div>
 
-                    <button class="btn btn-brand-02 btn-block">Kayıt Oluştur</button>
+                    <button type="submit" class="btn btn-brand-02 btn-block">Kayıt Oluştur</button>
                     <div class="divider-text">yada</div>
                     <div class="tx-13 mg-t-20 tx-center">Bir Hesabın Var Mı? <a href="/Account/Login">Giriş Yap</a></div>
-                </div>
+                </form>
             </div><!-- sign-wrapper -->
             <div class="media-body pd-y-30 pd-lg-x-50 pd-xl-x-60 align-items-center d-none d-lg-flex pos-relative">
                 <div class="mx-lg-wd-500 mx-xl-wd-550">
-                    <img src="~/assets/img/img16.png" class="img-fluid" alt="">
+                    <img src="~/assets/img/img16.png" class="img-fluid" alt="" asp-append-version="true">
                 </div>
             </div><!-- media-body -->
         </div><!-- media -->
@@ -69,15 +78,12 @@
 </div><!-- content -->
 
 
-<script src="~/lib/jquery/jquery.min.js"></script>
-<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="~/lib/feather-icons/feather.min.js"></script>
-<script src="~/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+<script src="~/lib/feather-icons/feather.min.js" asp-append-version="true"></script>
+<script src="~/lib/perfect-scrollbar/perfect-scrollbar.min.js" asp-append-version="true"></script>
 
-<script src="~/assets/js/dashforge.js"></script>
+<script src="~/assets/js/dashforge.js" asp-append-version="true"></script>
 
-<!-- append theme customizer -->
-<script src="~/lib/js-cookie/js.cookie.js"></script>
-<script src="~/assets/js/dashforge.settings.js"></script>
 </body>
 </html>

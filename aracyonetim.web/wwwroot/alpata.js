@@ -27,6 +27,12 @@ function deleteForm() {
 }
 var tpage;
 $(function() {
+    fetch('/Yetkiler/RolMenuler')
+        .then(res=>res.json())
+        .then(res=>{
+            res.map(item=>$('#menuul').append('<li class="nav-item"><a href="'+item.adres+'" class="nav-link"><i data-feather="'+item.icon+'"></i> <span>'+item.isim+'</span></a></li>'))
+            ;feather.replace();
+            $('[href="'+tpage.url+'"]').parent().addClass("active");})
     let page = pages.find(f => f.url.toLowerCase() == window.location.pathname.toLowerCase());
     tpage=page;
     if (page)
@@ -34,11 +40,13 @@ $(function() {
 });
 
 function pageInit(page) {
+    if(page.onInit){
+        page.onInit()
+    }
     $('.pageHeader').text(page.name);
     
     $('#genericforparent').attr("action",page.url+"/Save");
     
-    $('[href="'+page.url+'"]').parent().addClass("active");
     
     deleteUrl=page.url+"/Remove";
     
@@ -129,6 +137,7 @@ $('form').on('submit', function(event) {
             } else {
                 DevExpress.ui.notify("Başarısız! Lütfen daha sonra tekrar deneyiniz.", "error", 1000);
             }
+            buttonIndicator.option("visible", false);
         });
 })
 

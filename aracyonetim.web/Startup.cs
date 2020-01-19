@@ -7,8 +7,10 @@ using aracyonetim.entities.Tables;
 using aracyonetim.services.Interfaces;
 using aracyonetim.services.Repositories;
 using aracyonetim.services.Services;
+using aracyonetim.web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -63,6 +65,20 @@ namespace aracyonetim.web
             
             services.AddScoped<IBakimTalebiRepository, BakimTalebiRepository>();
             services.AddScoped<IBakimTalebiService, BakimTalebiService>();
+
+            services.AddScoped<IMailService, MailService>();
+            
+            services.AddScoped<IFirmaRepository, FirmaRepository>();
+            services.AddScoped<IFirmaService, FirmaService>();
+
+            services.AddScoped<IChartDtoRepository, ChartDtoRepository>();
+            
+            services.AddScoped<IRaporService, RaporService>();
+            
+            services.AddScoped<IRolRepository, RolRepository>();
+            services.AddScoped<IRolService, RolService>();
+            
+            services.AddScoped<IRolMenuRepository, RolMenuRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

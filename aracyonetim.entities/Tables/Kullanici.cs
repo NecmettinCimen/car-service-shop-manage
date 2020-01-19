@@ -23,5 +23,9 @@ namespace aracyonetim.entities.Tables
         
         [MaxLength(250)]
         public string Adres { get; set; }
+        
+        [Required] 
+        public int RolId { get; set; }
+        public Rol Rol { get; set; }
     }
 }

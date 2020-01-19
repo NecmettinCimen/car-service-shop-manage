@@ -1,4 +1,6 @@
+using System.Linq;
 using System.Threading.Tasks;
+using aracyonetim.entities.Dtos;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,17 +13,20 @@ namespace aracyonetim.services.Services
         public Task Update(Kullanici model);
         public Task<Kullanici> Login(string eposta, string parola);
         public Task<Kullanici> Find(int id);
+        public Task Delete(int id, int firmaid);
+        public Task<bool> EpostaCheck(string eposta);
+        public Task<DataGridDto<KullaniciListDto>> List(int firmaid);
     }
     public class KullaniciService:IKullaniciService
     {
         private readonly IKullaniciRepository _kullaniciRepository;
-        private readonly IMusteriRepository _musteriRepository;
+        private readonly IRolRepository _rolRepository;
 
         public KullaniciService(IKullaniciRepository kullaniciRepository,
-            IMusteriRepository musteriRepository)
+            IRolRepository rolRepository)
         {
             _kullaniciRepository = kullaniciRepository;
-            _musteriRepository = musteriRepository;
+            _rolRepository = rolRepository;
         }
         public async Task<int> Save(Kullanici model)
         {
@@ -43,6 +48,33 @@ namespace aracyonetim.services.Services
             return await  _kullaniciRepository
                 .Find(f => f.Id == id)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task Delete(int id, int firmaid)
+        {
+            await _kullaniciRepository.Delete(id, firmaid);
+        }
+
+        public async Task<bool> EpostaCheck(string email)
+        {
+            return await _kullaniciRepository
+                .All().AnyAsync(f => f.Eposta == email);
+        }
+
+        public async Task<DataGridDto<KullaniciListDto>> List(int firmaid)
+        {
+            return await GenerateDataGridDto<KullaniciListDto>.Store((from k in _kullaniciRepository.All(firmaid)
+                    join i in _rolRepository.All() on k.RolId equals  i.Id
+                    select new KullaniciListDto
+                    {
+                        Adres = k.Adres,
+                        Eposta = k.Eposta,
+                        Id = k.Id,
+                        Meslek = k.Unvan,
+                        Rol = i.Isim,
+                        Telefon = k.Telefon,
+                        AdSoyad = k.AdSoyad
+                    }));
         }
     }
 }

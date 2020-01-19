@@ -1,8 +1,133 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+﻿@model aracyonetim.entities.Dtos.SayilarDto
+          <div class="row row-xs">
+            <div class="col-sm-6 col-lg-3">
+              <div class="card card-body tx-white bg-primary">
+                <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-white tx-semibold mg-b-8">Araç Sayısı</h6>
+                <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                  <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1 tx-white">@Model.AracSayisi</h3>
+                </div>
+              </div>
+            </div><!-- col -->
+            <div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0">
+              <div class="card card-body tx-white bg-secondary">
+                <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-white tx-semibold mg-b-8">Müşteri Sayısı</h6>
+                <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                  <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1 tx-white">@Model.MusteriSayisi</h3>
+                </div>
+              </div>
+            </div><!-- col -->
+            <div class="col-sm-6 col-lg-3 mg-t-10 mg-lg-t-0">
+              <div class="card card-body tx-white bg-success">
+                <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-white tx-semibold mg-b-8">Bakım Talebi Sayısı</h6>
+                <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                  <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1 tx-white">@Model.BakimTalebi</h3>
+                </div>
+              </div>
+            </div><!-- col -->
+            <div class="col-sm-6 col-lg-3 mg-t-10 mg-lg-t-0">
+              <div class="card card-body tx-white bg-warning">
+                <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-white tx-semibold mg-b-8">Kullanıcı Sayısı</h6>
+                <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                  <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1 tx-white">@Model.KullaniciSayisi</h3>
+                </div>
+              </div>
+            </div><!-- col -->
+            <div class="col-lg-8 col-xl-7 mg-t-10">
+              <div class="card">
+                <div class="card-header pd-t-20 pd-b-0 bd-b-0">
+                  <h6 class="mg-b-0">Haftalık Bakım Talebi Sayısı</h6>
+                </div><!-- card-header -->
+                <div class="card-body pos-relative pd-0">
+                  <div class="chart-one">
+                    <div id="TarihlereGoreBakimTalepleri"></div>
+                  </div><!-- chart-one -->
+                </div><!-- card-body -->
+              </div><!-- card -->
+            </div>
+            <div class="col-lg-4 col-xl-5 mg-t-10">
+                          <div class="card">
+                            <div class="card-header pd-t-20 pd-b-0 bd-b-0">
+                              <h6 class="mg-b-0">Araç Model Dağılımları</h6>
+                            </div><!-- card-header -->
+                            <div class="card-body pos-relative pd-0">
+                              <div class="chart-one">
+                                <div id="AracMarkalari"></div>
+                              </div><!-- chart-one -->
+                            </div><!-- card-body -->
+                          </div><!-- card -->
+                        </div>
+           
+          </div>
+          
+          @section Scripts
+          {
+            <script>
+            $('html body div.content.ht-100v.pd-0 div.content-body div.container.pd-x-0 div.d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30').remove()
+                      $("#TarihlereGoreBakimTalepleri").dxChart({
+                          palette: "Violet",
+                          dataSource: {
+                              store:{
+                                  type:'odata',
+                                  url:'/home/TarihlereGoreBakimTalepleri'
+                              }
+                          },
+                          commonSeriesSettings: {
+                              argumentField: "isim",
+                              type: 'line'
+                          },
+                          argumentAxis: {
+                              valueMarginsEnabled: false,
+                              discreteAxisDivisionMode: "crossLabels",
+                              grid: {
+                                  visible: true
+                              }
+                          },
+                          series: [
+                              { valueField: "sayi", name: "Talep Sayısı" },
+                          ],
+                          legend: {
+                              verticalAlignment: "bottom",
+                              horizontalAlignment: "center",
+                              itemTextPosition: "bottom"
+                          },
+                          "export": {
+                              enabled: true
+                          },
+                          tooltip: {
+                              enabled: true
+                          },
+                    animation: {
+                        enabled: false
+                    },
+                      });
+            $("#AracMarkalari").dxPieChart({
+                    palette: "bright",
+                    dataSource: {
+                      store:{
+                        type:'odata',
+                        url:'/home/AracMarkalari'
+                      }
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    animation: {
+                        enabled: false
+                    },
+                    resolveLabelOverlapping: 'shify',
+                    export: {
+                        enabled: true
+                    },
+                    series: [{
+                        argumentField: "isim",
+                        valueField: "sayi",
+                        label: {
+                            visible: true,
+                            customizeText: function(arg) {
+                                return arg.argumentText + " (" + arg.percentText + ")";
+                            }
+                        }
+                    }]
+                })
+                </script>
+          }

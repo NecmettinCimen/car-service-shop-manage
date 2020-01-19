@@ -12,6 +12,7 @@ namespace aracyonetim.services.Services
         public Task<DataGridDto<DxSelectDto>> List(Lookup model);
         public Task<DataGridDto<DxSelectDto>> List(Lookup model, int parentId);
         public Task<int> First(Lookup model);
+        Task<int> GetParentId(int ilceid);
     }
 
     public class LookupListService : ILookupListService
@@ -49,6 +50,11 @@ namespace aracyonetim.services.Services
                 .Where(w => w.Tip == model)
                 .OrderBy(o=>o.Id)
                 .Select(s => s.Id).FirstAsync();
+        }
+
+        public async Task<int> GetParentId(int ilceid)
+        {
+            return await _lookupListRepository.Find(f => f.Id == ilceid).Select(s => s.ParentId.Value).FirstAsync();
         }
     }
 }

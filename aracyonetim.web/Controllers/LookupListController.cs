@@ -43,6 +43,16 @@ namespace aracyonetim.web.Controllers
             var result = await _lookupListService.List(Lookup.Bakim);
             return Json(result);
         }
+        public async Task<IActionResult> IlIlce(int ilceid)
+        {
+            var ilid = await _lookupListService.GetParentId(ilceid);
+            var items = await _lookupListService.List(Lookup.Ilce, ilid);
+            return Json(new
+            {
+                ilid,
+                items
+            });
+        }
 
     }
 }

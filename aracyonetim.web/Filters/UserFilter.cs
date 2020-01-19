@@ -1,4 +1,5 @@
 using aracyonetim.web.Controllers;
+using aracyonetim.web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -9,15 +10,15 @@ namespace aracyonetim.web.Filters
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            var userid = context.HttpContext.Session.GetInt32("userid");
-            if (!userid.HasValue)
-            {
-                context.Result =new  RedirectResult("/Account/Login");
-            }
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            var userid = context.HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId);
+            if (!userid.HasValue)
+            {
+                context.Result =new  RedirectResult("/Account/Login");
+            }
         }
     }
 }

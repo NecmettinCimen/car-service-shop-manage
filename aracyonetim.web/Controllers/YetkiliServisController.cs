@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Services;
 using aracyonetim.web.Filters;
+using aracyonetim.web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace aracyonetim.web.Controllers
             _aracService = aracService;
         }
         
+        [MenuFilter]
         public IActionResult Index()
         {
             return View("GenericCrud");
@@ -29,14 +31,18 @@ namespace aracyonetim.web.Controllers
 
         public async Task<IActionResult> List()
         {
-            var result =await _bakimTalebiService.List();
+            var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+
+            var result =await _bakimTalebiService.List(firmaid);
             return Json(result);
         }
 
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _bakimTalebiService.Get(id);
-            result.Arac = await _aracService.Get(result.AracId);
+            var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+
+            var result = await _bakimTalebiService.Get(id, firmaid);
+            result.Arac = await _aracService.Get(result.AracId, firmaid);
             return Json(result);
         }
 
@@ -44,8 +50,10 @@ namespace aracyonetim.web.Controllers
         {
             try
             {
-                bakimTalebi.CreatorId = HttpContext.Session.GetInt32("userid").Value;
-                var model = await _bakimTalebiService.Get(bakimTalebi.Id);
+                bakimTalebi.FirmaId = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+
+                bakimTalebi.CreatorId = HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId).Value;
+                var model = await _bakimTalebiService.Get(bakimTalebi.Id,bakimTalebi.FirmaId.Value);
                 model.DurumId = bakimTalebi.DurumId;
                 model.YetkiliServisAciklama = bakimTalebi.YetkiliServisAciklama;
                 
