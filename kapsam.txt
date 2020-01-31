@@ -28,8 +28,4 @@ Mail Bilgilendirme
 bu temaya geçir
 http://themepixels.me/dashforge/template/classic-plus/dashboard-one.html
 
-/kontroller
-int alanlara string girilme kontrolu
-login yanlış şifre alert gösterimi
-musteri adres il düzenleme
 
