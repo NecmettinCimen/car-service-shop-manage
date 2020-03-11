@@ -122,7 +122,7 @@ namespace aracyonetim.database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Server=localhost\\sekiz;Initial Catalog=dbaracyonetim;User ID=sa;Password=Nebula21;");
+                "Server=localhost\\sekiz;Initial Catalog=dbaracyonetim;User ID=sa;Password=A{J8c]fu^j\\FuZ&>;");
         }
     }
 }
