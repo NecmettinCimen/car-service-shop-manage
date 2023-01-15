@@ -34,7 +34,7 @@ namespace aracyonetim.web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AracYonetimContext>(options =>
-                options.UseSqlServer(Configuration.GetSection("AracYonetimDbConnString").Value));
+                options.UseSqlServer(Configuration.GetConnectionString("AracYonetimDbConnString"), b => b.MigrationsAssembly("aracyonetim.web")));
 
             var builder = services.AddRazorPages();
 

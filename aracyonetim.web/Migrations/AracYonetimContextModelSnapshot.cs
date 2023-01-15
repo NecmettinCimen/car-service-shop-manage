@@ -3,30 +3,32 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aracyonetim.database;
 
-namespace aracyonetim.database.Migrations
+#nullable disable
+
+namespace aracyonetim.web.Migrations
 {
     [DbContext(typeof(AracYonetimContext))]
-    [Migration("20200118204136_bakimtalebidurumfixed")]
-    partial class bakimtalebidurumfixed
+    partial class AracYonetimContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("aracyonetim.entities.Tables.Arac", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -36,6 +38,9 @@ namespace aracyonetim.database.Migrations
 
                     b.Property<bool>("EnSonBakimYetkiliServis")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -47,20 +52,20 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Model")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Motor")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("Otomatik")
                         .HasColumnType("bit");
 
                     b.Property<string>("Plaka")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("RuhsatSahibiAdSoyad")
                         .HasColumnType("nvarchar(max)");
@@ -79,6 +84,8 @@ namespace aracyonetim.database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FirmaId");
+
                     b.HasIndex("MarkaId");
 
                     b.HasIndex("YakitId");
@@ -90,13 +97,14 @@ namespace aracyonetim.database.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Aciklama")
                         .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("AracId")
                         .HasColumnType("int");
@@ -113,6 +121,9 @@ namespace aracyonetim.database.Migrations
                     b.Property<int>("DurumId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -123,8 +134,8 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("smallint");
 
                     b.Property<string>("YetkiliServisAciklama")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -132,26 +143,67 @@ namespace aracyonetim.database.Migrations
 
                     b.HasIndex("DurumId");
 
+                    b.HasIndex("FirmaId");
+
                     b.HasIndex("KullaniciId");
 
                     b.ToTable("BakimTalebi");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.Firma", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId1")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Isim")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId1");
+
+                    b.ToTable("Firma");
                 });
 
             modelBuilder.Entity("aracyonetim.entities.Tables.Kullanici", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AdSoyad")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Adres")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -161,8 +213,11 @@ namespace aracyonetim.database.Migrations
 
                     b.Property<string>("Eposta")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
 
                     b.Property<int>("IlceId")
                         .HasColumnType("int");
@@ -172,22 +227,29 @@ namespace aracyonetim.database.Migrations
 
                     b.Property<string>("Parola")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
 
                     b.Property<short>("Status")
                         .HasColumnType("smallint");
 
                     b.Property<string>("Telefon")
                         .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Unvan")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("Kullanici");
                 });
@@ -196,8 +258,9 @@ namespace aracyonetim.database.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -205,13 +268,16 @@ namespace aracyonetim.database.Migrations
                     b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Isim")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
@@ -223,6 +289,8 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
 
                     b.ToTable("LookupList");
 
@@ -12571,6 +12639,16 @@ namespace aracyonetim.database.Migrations
                             Isim = "Red Edildi",
                             Status = (short)0,
                             Tip = 4
+                        },
+                        new
+                        {
+                            Id = 498813,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Tamamlandı",
+                            Status = (short)0,
+                            Tip = 4
                         });
                 });
 
@@ -12578,8 +12656,9 @@ namespace aracyonetim.database.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("CinsiyetErkek")
                         .HasColumnType("bit");
@@ -12591,8 +12670,11 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("EvTelefon")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -12601,36 +12683,295 @@ namespace aracyonetim.database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SirketAd")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("SirketAdres")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<bool>("SirketAraci")
                         .HasColumnType("bit");
 
                     b.Property<string>("SirketTelefon")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<short>("Status")
                         .HasColumnType("smallint");
 
                     b.Property<string>("TC")
-                        .HasColumnType("nvarchar(11)")
-                        .HasMaxLength(11);
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
 
                     b.HasIndex("KullaniciId");
 
                     b.ToTable("Musteri");
                 });
 
+            modelBuilder.Entity("aracyonetim.entities.Tables.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Isim")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.ToTable("Rol");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 498815,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Admin",
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498823,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Kullanıcı",
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498828,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Yetkili Servis",
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498831,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            Isim = "Müşteri",
+                            Status = (short)0
+                        });
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.RolMenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MenuNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.HasIndex("RolId");
+
+                    b.ToTable("RolMenu");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 498816,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 1,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498817,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 2,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498818,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 3,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498819,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 4,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498820,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 5,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498821,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 6,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498822,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 7,
+                            RolId = 498815,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498824,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 1,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498825,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 2,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498826,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 3,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498827,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 4,
+                            RolId = 498823,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498829,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 1,
+                            RolId = 498828,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498830,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 5,
+                            RolId = 498828,
+                            Status = (short)0
+                        },
+                        new
+                        {
+                            Id = 498832,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 0,
+                            IsDeleted = false,
+                            MenuNo = 4,
+                            RolId = 498831,
+                            Status = (short)0
+                        });
+                });
+
             modelBuilder.Entity("aracyonetim.entities.Tables.Arac", b =>
                 {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
                     b.HasOne("aracyonetim.entities.Tables.LookupList", "Marka")
                         .WithMany()
                         .HasForeignKey("MarkaId");
@@ -12638,6 +12979,12 @@ namespace aracyonetim.database.Migrations
                     b.HasOne("aracyonetim.entities.Tables.LookupList", "Yakit")
                         .WithMany()
                         .HasForeignKey("YakitId");
+
+                    b.Navigation("Firma");
+
+                    b.Navigation("Marka");
+
+                    b.Navigation("Yakit");
                 });
 
             modelBuilder.Entity("aracyonetim.entities.Tables.BakimTalebi", b =>
@@ -12654,20 +13001,101 @@ namespace aracyonetim.database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
                     b.HasOne("aracyonetim.entities.Tables.Kullanici", "Kullanici")
                         .WithMany()
                         .HasForeignKey("KullaniciId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Arac");
+
+                    b.Navigation("Durum");
+
+                    b.Navigation("Firma");
+
+                    b.Navigation("Kullanici");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.Firma", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId1");
+
+                    b.Navigation("Firma");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.Kullanici", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.HasOne("aracyonetim.entities.Tables.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Firma");
+
+                    b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.LookupList", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.Navigation("Firma");
                 });
 
             modelBuilder.Entity("aracyonetim.entities.Tables.Musteri", b =>
                 {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
                     b.HasOne("aracyonetim.entities.Tables.Kullanici", "Kullanici")
                         .WithMany()
                         .HasForeignKey("KullaniciId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Firma");
+
+                    b.Navigation("Kullanici");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.Rol", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.Navigation("Firma");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.RolMenu", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.HasOne("aracyonetim.entities.Tables.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Firma");
+
+                    b.Navigation("Rol");
                 });
 #pragma warning restore 612, 618
         }

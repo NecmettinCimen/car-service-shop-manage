@@ -20,7 +20,7 @@ namespace aracyonetim.database
         public DbSet<Rol> Rol { get; set; }
         public DbSet<RolMenu> RolMenu { get; set; }
         
-        public DbQuery<ChartDto> ChartDto { get; set; }
+        // public DbQuery<ChartDto> ChartDto { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -117,12 +117,6 @@ namespace aracyonetim.database
                 );
 
 
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(
-                "Server=localhost\\sekiz;Initial Catalog=dbaracyonetim;User ID=sa;Password=A{J8c]fu^j\\FuZ&>;");
         }
     }
 }
