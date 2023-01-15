@@ -58,7 +58,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-aracyonetim App .Net Core 3.1
+![aracyonetim_gif](./img/aracyonetim_gif.gif)
+
+aracyonetim App .Net Core 7.0
 
 A list of commonly used resources that I find helpful are listed in the acknowledgements.
 
@@ -77,7 +79,7 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-https://dotnet.microsoft.com/download/dotnet/3.1
+https://dotnet.microsoft.com/download/dotnet/7.0
 
 ### Installation
 
