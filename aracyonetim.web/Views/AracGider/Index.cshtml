@@ -1,0 +1,150 @@
+
+<table id="generictable" class="table">
+</table>
+
+<div class="modal fade" id="genericmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-14">
+            <div class="modal-header">
+                <h6 class="modal-title pageHeader" id="exampleModalLabel2"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="genericforparent" class="modal-body" method="post">
+                <input name="id" hidden="" />
+                <div id="genericform">
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-14">
+            <div class="modal-header">
+                <h6 class="modal-title pageHeader" id="exampleModalLabel2"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Silmek İstediğinize Emin Misiniz?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" onclick="deleteItem()">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        tpage =
+        {
+            url: '/AracGider',
+            name: 'Araç Gider Yönetimi',
+            form: [
+                {
+                    dataField: "aracId",
+                    editorType: "dxSelectBox",
+                    editorOptions: {
+                        onInitialized: async function (e) {
+                            var items = await (await fetch("/Araclar/Select")).json()
+                            e.component.option('items', items)
+                        },
+                        searchEnabled: true,
+                        placeholder: 'Araç Seçiniz',
+                        displayExpr: "text",
+                        valueExpr: "id",
+                    },
+                    label: {
+                        text: "Araç"
+                    },
+                    validationRules: [{
+                        type: "required",
+                        message: "Lütfen araç seçiniz."
+                    }]
+                },
+                {
+                    dataField: "giderTip",
+                    label: {
+                        text: "Gider Tip"
+                    }
+                },
+                {
+                    dataField: "fiyat",
+                    label: {
+                        text: "Fiyat"
+                    },
+                },
+                {
+                    dataField: "giderTarih",
+                    label: {
+                        text: "Gider Tarihi"
+                    },
+                    editorType: "dxDateBox",
+                    editorOptions: {
+                        type: 'date',
+                        displayFormat: 'dd.MM.yyyy',
+                    }
+                },
+                {
+                    dataField: "aciklama",
+                    label: {
+                        text: "Açıklama"
+                    },
+                    editorType: "dxTextArea",
+                    editorOptions: {
+                        placeholder: 'Açıklama giriniz'
+                    },
+                    validationRules: [{
+                        type: "required",
+                        message: "Lütfen açıklama giriniz."
+                    }]
+                },
+                buttomButtons
+            ],
+            table: [
+                {
+                    type: "buttons",
+                    buttons: [{
+                        hint: "Düzenle",
+                        icon: "edit",
+                        onClick: (e) => editButtonOnClick(e, "/AracGider")
+                    }]
+                },
+                {
+                    dataField: "id",
+                    caption: "No",
+                },
+                {
+                    dataField: "plaka",
+                    caption: "Plaka",
+                },
+                {
+                    dataField: "giderTip",
+                    caption: "Gider Tip"
+
+                },
+                {
+                    dataField: "fiyat",
+                    caption: "Fiyat",
+                },
+                {
+                    dataField: "giderTarih",
+                    caption: "Gider Tarih",
+                    dataType: "date"
+                },
+                {
+                    dataField: "aciklama",
+                    caption: "Açıklama",
+                }
+            ]
+        };
+        pageInit(tpage)
+    </script>
+}

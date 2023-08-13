@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using aracyonetim.database;
 using aracyonetim.entities.Dtos;
 using aracyonetim.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace aracyonetim.services.Services
 {
@@ -14,7 +12,7 @@ namespace aracyonetim.services.Services
         public Task<DataGridDto<ChartDto>> TarihlereGoreBakimTalepleri(int firmaid);
         public Task<DataGridDto<ChartDto>> AracMarkalari(int firmaid);
     }
-    public class RaporService:IRaporService
+    public class RaporService : IRaporService
     {
         private readonly IAracRepository _aracRepository;
         private readonly IKullaniciRepository _kullaniciRepository;
@@ -35,18 +33,18 @@ namespace aracyonetim.services.Services
             _musteriRepository = musteriRepository;
             _chartRepository = chartRepository;
         }
-        
+
         public async Task<SayilarDto> Sayilar(int firmaid)
         {
             return new SayilarDto
             {
                 AracSayisi = await _aracRepository.All(firmaid).CountAsync(),
-                BakimTalebi =await _bakimTalebiRepository.All(firmaid).CountAsync(),
-                KullaniciSayisi =await _kullaniciRepository.All(firmaid).CountAsync(),
-                MusteriSayisi =await _musteriRepository.All(firmaid).CountAsync(),
+                BakimTalebi = await _bakimTalebiRepository.All(firmaid).CountAsync(),
+                KullaniciSayisi = await _kullaniciRepository.All(firmaid).CountAsync(),
+                MusteriSayisi = await _musteriRepository.All(firmaid).CountAsync(),
             };
         }
-        
+
         private string DateSql(string sql, DateTime baslangic, DateTime bitis) => $@"set language  turkish;
                         DECLARE @i date = '{baslangic.ToString("yyyy-MM-dd")}';
                         DECLARE @length date = dateadd(week,1,@i);
@@ -71,13 +69,13 @@ namespace aracyonetim.services.Services
                             select * from #Temporary;
                         drop table  #Temporary;";
 
-        
+
         public async Task<DataGridDto<ChartDto>> TarihlereGoreBakimTalepleri(int firmaid)
         {
             var result = await _chartRepository.FromSql(DateSql(
                 $@"select convert(varchar,BakimTarihi,104) Isim, count(*) Sayi from BakimTalebi
                          where FirmaId={firmaid} and datepart(dayofyear ,BakimTarihi) = datepart(dayofyear,@i)
-                         group by convert(varchar,BakimTarihi,104)", 
+                         group by convert(varchar,BakimTarihi,104)",
                 DateTime.Now.StartOfWeek(DayOfWeek.Monday),
                 DateTime.Now.StartOfWeek(DayOfWeek.Sunday)));
 
@@ -86,7 +84,7 @@ namespace aracyonetim.services.Services
                 data = result
             };
         }
-        
+
         public async Task<DataGridDto<ChartDto>> AracMarkalari(int firmaid)
         {
             var result = await _chartRepository.FromSql(

@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Threading.Tasks;
 using aracyonetim.entities.Dtos;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace aracyonetim.services.Services
 {
@@ -17,7 +17,7 @@ namespace aracyonetim.services.Services
         public Task<bool> EpostaCheck(string eposta);
         public Task<DataGridDto<KullaniciListDto>> List(int firmaid);
     }
-    public class KullaniciService:IKullaniciService
+    public class KullaniciService : IKullaniciService
     {
         private readonly IKullaniciRepository _kullaniciRepository;
         private readonly IRolRepository _rolRepository;
@@ -39,13 +39,13 @@ namespace aracyonetim.services.Services
 
         public async Task<Kullanici> Login(string eposta, string parola)
         {
-            return await  _kullaniciRepository
+            return await _kullaniciRepository
                 .Find(f => f.Eposta == eposta && f.Parola == parola)
                 .FirstOrDefaultAsync();
         }
         public async Task<Kullanici> Find(int id)
         {
-            return await  _kullaniciRepository
+            return await _kullaniciRepository
                 .Find(f => f.Id == id)
                 .FirstOrDefaultAsync();
         }
@@ -64,17 +64,17 @@ namespace aracyonetim.services.Services
         public async Task<DataGridDto<KullaniciListDto>> List(int firmaid)
         {
             return await GenerateDataGridDto<KullaniciListDto>.Store((from k in _kullaniciRepository.All(firmaid)
-                    join i in _rolRepository.All() on k.RolId equals  i.Id
-                    select new KullaniciListDto
-                    {
-                        Adres = k.Adres,
-                        Eposta = k.Eposta,
-                        Id = k.Id,
-                        Meslek = k.Unvan,
-                        Rol = i.Isim,
-                        Telefon = k.Telefon,
-                        AdSoyad = k.AdSoyad
-                    }));
+                                                                      join i in _rolRepository.All() on k.RolId equals i.Id
+                                                                      select new KullaniciListDto
+                                                                      {
+                                                                          Adres = k.Adres,
+                                                                          Eposta = k.Eposta,
+                                                                          Id = k.Id,
+                                                                          Meslek = k.Unvan,
+                                                                          Rol = i.Isim,
+                                                                          Telefon = k.Telefon,
+                                                                          AdSoyad = k.AdSoyad
+                                                                      }));
         }
     }
 }

@@ -1,8 +1,8 @@
 async function editButtonOnClick(e, url, callback) {
     $('[name="id"]').val(e.row.data.id);
 
-    let res = (await (await fetch(url+'/Get?id=' + e.row.data.id)).json());
-    if(callback)
+    let res = (await (await fetch(url + '/Get?id=' + e.row.data.id)).json());
+    if (callback)
         callback(res)
 
     let form = $("#genericform").dxForm("instance");
@@ -12,20 +12,20 @@ async function editButtonOnClick(e, url, callback) {
     $('#genericmodal').modal('show')
 }
 let buttonIndicator;
-let kaydetbtn={
+let kaydetbtn = {
     itemType: "button",
     horizontalAlignment: "Left",
     buttonOptions: {
         text: "Kaydet",
         type: "success",
         useSubmitBehavior: true,
-        template: function(data, container) {
+        template: function (data, container) {
             $("<div class='button-indicator' style='height: 32px;width: 32px;display: inline-block;vertical-align: middle;margin-right: 5px;'></div><span class='dx-button-text'>" + data.text + "</span>").appendTo(container);
             buttonIndicator = container.find(".button-indicator").dxLoadIndicator({
                 visible: false
             }).dxLoadIndicator("instance");
         },
-        onClick: function(data) {
+        onClick: function (data) {
             buttonIndicator.option("visible", true);
         }
     }
@@ -63,143 +63,275 @@ let pages = [
                 message: "Lütfen plaka giriniz."
             }]
         },
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "markaId",
+                label: {
+                    text: "Marka"
+                },
+                editorType: "dxSelectBox",
+                editorOptions: {
+                    placeholder: 'Marka Seçiniz',
+                    searchEnabled: true,
+                    displayExpr: "text",
+                    valueExpr: "id",
+                    onInitialized: async function (e) {
+                        var items = await (await fetch('/LookupList/Marka')).json()
+                        e.component.option('items', items)
+                    }
+                }
+            }, {
+                dataField: "model",
+                editorOptions: {
+                    maxLength: 100
+                }
+            }]
+        },
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "motor",
+                editorOptions: {
+                    maxLength: 50
+                }
+            },
             {
-                itemType: "group",
-                colCount: 2,
-                items: [{
-                    dataField: "markaId",
-                    label: {
-                        text: "Marka"
+                dataField: "ticari",
+                label: {
+                    text: "Ticari / Binek"
+                },
+                editorType: "dxSelectBox",
+                editorOptions: {
+                    searchEnabled: true,
+                    items: [{
+                        text: "Ticari",
+                        id: true
                     },
-                    editorType: "dxSelectBox",
-                    editorOptions: {
-                        placeholder: 'Marka Seçiniz',
-                        searchEnabled: true,
-                        displayExpr: "text",
-                        valueExpr: "id",
-                        onInitialized :async function (e){
-                            var items = await (await fetch('/LookupList/Marka')).json()
-                            e.component.option('items',items)
-                        }
-                    }
-                }, {
-                    dataField: "model",
-                    editorOptions: {
-                        maxLength: 100
-                    }
+                    {
+                        text: "Binek",
+                        id: false
+                    },
+                    ],
+                    displayExpr: "text",
+                    valueExpr: "id",
+                }
+            },
+            ]
+        },
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "yil",
+                label: {
+                    text: "Yıl"
+                },
+                editorOptions: {
+                    type: "number"
+                }
+            },
+            {
+                dataField: "km",
+                editorOptions: {
+                    type: "number"
+                }
+            }
+            ]
+        },
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "yakitId",
+                label: {
+                    text: "Yakıt Tipi"
+                },
+                editorType: "dxSelectBox",
+                editorOptions: {
+                    searchEnabled: true,
+                    onInitialized: async function (e) {
+                        var items = await (await fetch('/LookupList/Yakit')).json()
+                        e.component.option('items', items)
+                    },
+                    displayExpr: "text",
+                    valueExpr: "id",
+                }
+            },
+            {
+                dataField: "otomatik",
+                label: {
+                    text: "Vites Tipi"
+                },
+                editorType: "dxSelectBox",
+                editorOptions: {
+                    searchEnabled: true,
+                    items: [{
+                        text: "Manuel",
+                        id: false
+                    },
+                    {
+                        text: "Otomatik",
+                        id: true
+                    },
+                    ],
+                    displayExpr: "text",
+                    valueExpr: "id",
+                }
+            },
+            ]
+        },
+        {
+            dataField: "ruhsatSahibiAdSoyad",
+            label: {
+                text: "Ruhsat Sahibinin Adı Soyadı"
+            },
+            name: "RuhsatSahibiAdSoyad"
+        },
+
+
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "alisTarihi",
+                label: {
+                    text: "Alış Tarihi"
+                },
+                editorType: "dxDateBox",
+                editorOptions: {
+                    type: 'date',
+                    displayFormat: 'dd.MM.yyyy',
+                },
+                validationRules: [{
+                    type: "required",
+                    message: "Lütfen alım tarihi giriniz."
                 }]
             },
             {
-                itemType: "group",
-                colCount: 2,
-                items: [{
-                    dataField: "motor",
-                    editorOptions: {
-                        maxLength: 50
-                    }
-                },
-                    {
-                        dataField: "ticari",
-                        label: {
-                            text: "Ticari / Binek"
-                        },
-                        editorType: "dxSelectBox",
-                        editorOptions: {
-                            searchEnabled: true,
-                            items: [{
-                                text: "Ticari",
-                                id: true
-                            },
-                                {
-                                    text: "Binek",
-                                    id: false
-                                },
-                            ],
-                            displayExpr: "text",
-                            valueExpr: "id",
-                        }
-                    },
-                ]
-            },
-            {
-                itemType: "group",
-                colCount: 2,
-                items: [{
-                    dataField: "yil",
-                    label: {
-                        text: "Yıl"
-                    },
-                    editorOptions: {
-                        type: "number"
-                    }
-                },
-                    {
-                        dataField: "km",
-                        editorOptions: {
-                            type: "number"
-                        }
-                    }
-                ]
-            },
-            {
-                itemType: "group",
-                colCount: 2,
-                items: [{
-                    dataField: "yakitId",
-                    label: {
-                        text: "Yakıt Tipi"
-                    },
-                    editorType: "dxSelectBox",
-                    editorOptions: {
-                        searchEnabled: true,
-                        onInitialized :async function (e){
-                            var items = await (await fetch('/LookupList/Yakit')).json()
-                            e.component.option('items',items)
-                        },
-                        displayExpr: "text",
-                        valueExpr: "id",
-                    }
-                },
-                    {
-                        dataField: "otomatik",
-                        label: {
-                            text: "Vites Tipi"
-                        },
-                        editorType: "dxSelectBox",
-                        editorOptions: {
-                            searchEnabled: true,
-                            items: [{
-                                text: "Manuel",
-                                id: false
-                            },
-                                {
-                                    text: "Otomatik",
-                                    id: true
-                                },
-                            ],
-                            displayExpr: "text",
-                            valueExpr: "id",
-                        }
-                    },
-                ]
-            },
-            {
-                dataField: "ruhsatSahibiAdSoyad",
+                dataField: "satisTarihi",
                 label: {
-                    text: "Ruhsat Sahibinin Adı Soyadı"
+                    text: "Satış Tarihi"
                 },
-                name: "RuhsatSahibiAdSoyad"
+                editorType: "dxDateBox",
+                editorOptions: {
+                    type: 'date',
+                    displayFormat: 'dd.MM.yyyy',
+                }
+            },
+            ]
+        },
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "alisGunuDolar",
+                label: {
+                    text: "Alış Günü Dolar"
+                },
+                editorOptions: {
+                    type: "number"
+                }
             },
             {
-                labelLocation: "bottom",
-                dataField: "enSonBakimYetkiliServis",
+                dataField: "satisGunuDolar",
                 label: {
-                    text: "En Son Bakim Yetkili Serviste Yapıldı",
-                    location: "left",
-                    alignment: "left"
+                    text: "Satış Günü Dolar"
                 },
-                editorType: "dxCheckBox"
+                editorOptions: {
+                    type: "number"
+                }
+            }
+            ]
+        },
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "alisFiyat",
+                label: {
+                    text: "Alış Fiyat"
+                },
+                editorOptions: {
+                    type: "number"
+                }
             },
+            {
+                dataField: "satisFiyat",
+                label: {
+                    text: "Satış Fiyat"
+                },
+                editorOptions: {
+                    type: "number"
+                }
+            }
+            ]
+        },
+        {
+            itemType: "group",
+            colCount: 2,
+            items: [{
+                dataField: "aliciTC",
+                label: {
+                    text: "Alıcı TC"
+                },
+                editorOptions: {
+                    type: "number"
+                }
+            },
+            {
+                dataField: "saticiTC",
+                label: {
+                    text: "Satıcı TC"
+                },
+                editorOptions: {
+                    type: "number"
+                }
+            }
+            ]
+        },  
+        {
+            dataField: "sahibindenIlanNo",
+            label: {
+                text: "Sahibinden Ilan No"
+            },
+            name: "sahibindenIlanNo"
+        },
+        {
+            dataField: "sahibindenAciklama",
+            label: {
+                text: "Sahibinden Açıklama"
+            },
+            name: "sahibindenAciklama",
+            editorType: "dxTextArea",
+            editorOptions: {
+                placeholder: 'Sahibinden Açıklamasını giriniz',
+            }
+        },
+        {
+            dataField: "experBilgisi",
+            label: {
+                text: "Exper Bilgisi"
+            },
+            name: "experBilgisi",
+            editorType: "dxTextArea",
+            editorOptions: {
+                placeholder: 'Exper Bilgisi giriniz',
+            }
+        },
+        {
+            dataField: "hasarKaydiBilgisi",
+            label: {
+                text: "Hasar Kaydı Bilgisi"
+            },
+            name: "hasarKaydiBilgisi",
+            editorType: "dxTextArea",
+            editorOptions: {
+                placeholder: 'Hasar Kaydı Bilgisi giriniz',
+            }
+        },
             buttomButtons
         ],
         table: [
@@ -208,7 +340,7 @@ let pages = [
                 buttons: [{
                     hint: "Düzenle",
                     icon: "edit",
-                    onClick: (e)=>editButtonOnClick(e,"/Araclar")
+                    onClick: (e) => editButtonOnClick(e, "/Araclar")
                 }]
             },
             {
@@ -228,21 +360,18 @@ let pages = [
                 caption: "Model",
             },
             {
-                dataField: "ticariBinek",
-                caption: "Ticari / Binek",
+                dataField: "alisTarihi",
+                caption: "Alış Tarihi",
+                dataType: "date"
             },
             {
-                dataField: "yil",
-                caption: "Yıl",
+                dataField: "satisTarihi",
+                caption: "Satış Tarihi",
+                dataType: "date"
             },
             {
-                dataField: "km",
-                caption: "Km",
-                visible: false
-            },
-            {
-                dataField: "yakit",
-                caption: "Yakıt Tipi",
+                dataField: "SahibindenIlanNo",
+                caption: "Sahibinden İlan No",
             },
             {
                 dataField: "vites",
@@ -346,15 +475,15 @@ let pages = [
                     editorOptions: {
                         searchEnabled: true,
                         placeholder: 'Il Seçiniz',
-                        onInitialized :async function (e){
+                        onInitialized: async function (e) {
                             var items = await (await fetch('/LookupList/Il')).json()
-                            e.component.option('items',items)
+                            e.component.option('items', items)
                         },
                         displayExpr: "text",
                         valueExpr: "id",
-                        onValueChanged:async (e) => {
+                        onValueChanged: async (e) => {
                             var items = await (await fetch('/LookupList/Ilce?parentId=' + e.value)).json()
-                            $("#genericform").dxForm("instance").getEditor("kullanici.ilceId").option('items',items)
+                            $("#genericform").dxForm("instance").getEditor("kullanici.ilceId").option('items', items)
                         },
                     }
                 }, {
@@ -412,16 +541,16 @@ let pages = [
                         mask: "(000) 000-0000"
                     }
                 },
-                    {
-                        dataField: "evTelefon",
-                        label: {
-                            text: "Ev Telefon",
-                        },
-                        editorOptions: {
-                            maxLength: 15,
-                            mask: "(000) 000-0000"
-                        }
+                {
+                    dataField: "evTelefon",
+                    label: {
+                        text: "Ev Telefon",
                     },
+                    editorOptions: {
+                        maxLength: 15,
+                        mask: "(000) 000-0000"
+                    }
+                },
                 ]
             },
             {
@@ -450,10 +579,10 @@ let pages = [
                                 text: "Erkek",
                                 id: true
                             },
-                                {
-                                    text: "Kadın",
-                                    id: false
-                                },
+                            {
+                                text: "Kadın",
+                                id: false
+                            },
                             ],
                             displayExpr: "text",
                             valueExpr: "id",
@@ -495,12 +624,12 @@ let pages = [
                 buttons: [{
                     hint: "Düzenle",
                     icon: "edit",
-                    onClick: (e)=>editButtonOnClick(e,"/Musteriler",(res)=>{
-                        fetch('/lookuplist/ililce?ilceid='+res.kullanici.ilceId)
-                            .then(res=>res.json())
-                            .then(res=>{
+                    onClick: (e) => editButtonOnClick(e, "/Musteriler", (res) => {
+                        fetch('/lookuplist/ililce?ilceid=' + res.kullanici.ilceId)
+                            .then(res => res.json())
+                            .then(res => {
                                 $("#genericform").dxForm("instance").getEditor("Il").option('value', res.ilid);
-                                $("#genericform").dxForm("instance").getEditor("kullanici.ilceId").option('items',res.items)
+                                $("#genericform").dxForm("instance").getEditor("kullanici.ilceId").option('items', res.items)
                             })
                     })
                 }]
@@ -577,11 +706,11 @@ let pages = [
         form: [
             {
                 dataField: "aracId",
-                editorType:"dxSelectBox",
-                editorOptions:{
-                    onInitialized :async function (e){
+                editorType: "dxSelectBox",
+                editorOptions: {
+                    onInitialized: async function (e) {
                         var items = await (await fetch("/Araclar/Select")).json()
-                        e.component.option('items',items)
+                        e.component.option('items', items)
                     },
                     searchEnabled: true,
                     placeholder: 'Araç Seçiniz',
@@ -634,7 +763,7 @@ let pages = [
                 buttons: [{
                     hint: "Düzenle",
                     icon: "edit",
-                    onClick: (e)=>editButtonOnClick(e,"/BakimTalebi")
+                    onClick: (e) => editButtonOnClick(e, "/BakimTalebi")
                 }]
             },
             {
@@ -653,7 +782,7 @@ let pages = [
                 dataField: "tarih",
                 caption: "Tarih",
                 dataType: "date"
-                
+
             },
             {
                 dataField: "adSoyad",
@@ -680,17 +809,17 @@ let pages = [
     {
         url: '/YetkiliServis',
         name: 'Yetkili Servis Yönetimi',
-        onInit:function(){
-          $('html body div.content.ht-100v.pd-0 div.content-body div.container.pd-x-0 div.d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30 div.d-none.d-md-block button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5').remove()  
+        onInit: function () {
+            $('html body div.content.ht-100v.pd-0 div.content-body div.container.pd-x-0 div.d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30 div.d-none.d-md-block button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5').remove()
         },
         form: [
             {
-              dataField:'arac.plaka',
-              label:{
-                  text:"Araç"
-              },
-                editorOptions:{
-                    readOnly:true
+                dataField: 'arac.plaka',
+                label: {
+                    text: "Araç"
+                },
+                editorOptions: {
+                    readOnly: true
                 }
             },
             {
@@ -702,7 +831,7 @@ let pages = [
                 editorOptions: {
                     type: 'date',
                     displayFormat: 'dd.MM.yyyy',
-                    readOnly:true
+                    readOnly: true
                 },
             },
             {
@@ -718,12 +847,12 @@ let pages = [
             {
                 dataField: "durumId",
                 editorType: "dxSelectBox",
-                editorOptions:{
+                editorOptions: {
                     searchEnabled: true,
                     placeholder: 'Durum Seçiniz',
-                    onInitialized :async function (e){
+                    onInitialized: async function (e) {
                         var items = await (await fetch("/LookupList/Bakim")).json()
-                        e.component.option('items',items)
+                        e.component.option('items', items)
                     },
                     displayExpr: "text",
                     valueExpr: "id",
@@ -757,7 +886,7 @@ let pages = [
                 buttons: [{
                     hint: "Düzenle",
                     icon: "edit",
-                    onClick: (e)=>editButtonOnClick(e,"/YetkiliServis")
+                    onClick: (e) => editButtonOnClick(e, "/YetkiliServis")
                 }]
             },
             {
@@ -873,9 +1002,9 @@ let pages = [
                         editorOptions: {
                             searchEnabled: true,
                             placeholder: 'Rol Seçiniz',
-                            onInitialized :async function (e){
+                            onInitialized: async function (e) {
                                 var items = await (await fetch("/Yetkiler/Select")).json()
-                                e.component.option('items',items)
+                                e.component.option('items', items)
                             },
                             displayExpr: "text",
                             valueExpr: "id",
@@ -884,8 +1013,9 @@ let pages = [
                             type: "required",
                             message: "Lütfen eposta giriniz."
                         }]
-                    }        
-                ]},
+                    }
+                ]
+            },
             {
                 itemType: "group",
                 colCount: 2,
@@ -898,16 +1028,16 @@ let pages = [
                     editorOptions: {
                         searchEnabled: true,
                         placeholder: 'Il Seçiniz',
-                        onInitialized :async function (e){
+                        onInitialized: async function (e) {
                             var items = await (await fetch("/LookupList/Il")).json()
-                            e.component.option('items',items)
+                            e.component.option('items', items)
                         },
                         displayExpr: "text",
                         valueExpr: "id",
-                        onValueChanged:async (e) => {
+                        onValueChanged: async (e) => {
 
-                                var items = await (await fetch('/LookupList/Ilce?parentId=' + e.value)).json()
-                                $("#genericform").dxForm("instance").getEditor("ilceId").option('items',items)
+                            var items = await (await fetch('/LookupList/Ilce?parentId=' + e.value)).json()
+                            $("#genericform").dxForm("instance").getEditor("ilceId").option('items', items)
                         },
                     }
                 }, {
@@ -948,7 +1078,7 @@ let pages = [
                 buttons: [{
                     hint: "Düzenle",
                     icon: "edit",
-                    onClick: (e)=>editButtonOnClick(e,"/Kullanicilar")
+                    onClick: (e) => editButtonOnClick(e, "/Kullanicilar")
                 }]
             },
             {
@@ -985,7 +1115,7 @@ let pages = [
     {
         url: '/Yetkiler',
         name: 'Yetki Tanımlamaları Yönetimi',
-        form:[
+        form: [
             {
                 dataField: "isim",
                 label: {
@@ -1006,18 +1136,18 @@ let pages = [
                 },
                 editorType: "dxList",
                 editorOptions: {
-                    onInitialized:async (e)=>{
-                        var items =await (await  fetch('/Yetkiler/Menuler')).json();
-                        e.component.option('items',items.data)
+                    onInitialized: async (e) => {
+                        var items = await (await fetch('/Yetkiler/Menuler')).json();
+                        e.component.option('items', items.data)
                     },
-                    itemTemplate: function(data, index) {
+                    itemTemplate: function (data, index) {
                         var result = $("<div>").text(data.text)
                         return result;
                     },
-                    onSelectionChanged:function(e) {
+                    onSelectionChanged: function (e) {
                         var selectedItems = e.component.option("selectedItems");
                         $('#menuler').remove()
-                        $('#genericform').append('<div id="menuler"><input hidden name="menuler" value="'+selectedItems.map(m=>m.id).join(",")+'"></div>')
+                        $('#genericform').append('<div id="menuler"><input hidden name="menuler" value="' + selectedItems.map(m => m.id).join(",") + '"></div>')
                     },
                     showSelectionControls: true,
                     selectionMode: "multiple",
@@ -1035,10 +1165,10 @@ let pages = [
                 buttons: [{
                     hint: "Düzenle",
                     icon: "edit",
-                    onClick: (e)=>editButtonOnClick(e,"/Yetkiler", function (res){
+                    onClick: (e) => editButtonOnClick(e, "/Yetkiler", function (res) {
                         let component = $("#genericform").dxForm("instance").getEditor("menuler");
                         component.unselectAll()
-                        res.menuList.map(item=>component.selectItem(item.id-1))
+                        res.menuList.map(item => component.selectItem(item.id - 1))
                     })
                 }]
             },

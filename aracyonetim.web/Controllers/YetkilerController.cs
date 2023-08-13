@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using aracyonetim.entities.Dtos;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Services;
@@ -10,6 +6,10 @@ using aracyonetim.web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace aracyonetim.web.Controllers
 {
@@ -27,10 +27,10 @@ namespace aracyonetim.web.Controllers
         {
             var firmaid =
                 HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result =await _rolService.Select(firmaid);
+            var result = await _rolService.Select(firmaid);
             return Json(result);
         }
-        
+
         public IActionResult RolMenuler()
         {
             var menustr = HttpContext.Session.GetString(Metrics.SessionKeys.Menuler);
@@ -48,10 +48,10 @@ namespace aracyonetim.web.Controllers
 
         public async Task<IActionResult> Get(int id)
         {
-                var firmaid =
-                    HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-                var result = await _rolService.Get(id, firmaid);
-                return Json(result);
+            var firmaid =
+                HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+            var result = await _rolService.Get(id, firmaid);
+            return Json(result);
         }
 
         public async Task<IActionResult> Save(YetkilerSaveDto yetkilerSaveDto)
@@ -107,10 +107,10 @@ namespace aracyonetim.web.Controllers
         {
             var result = new DataGridDto<DxSelectDto>
             {
-                data = MenuManager.MenuList.Select(s=>new DxSelectDto
+                data = MenuManager.MenuList.Select(s => new DxSelectDto
                 {
                     id = s.No,
-                     text = s.Isim
+                    text = s.Isim
                 }).ToList()
             };
             return Json(result);

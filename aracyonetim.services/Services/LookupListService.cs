@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Threading.Tasks;
 using aracyonetim.entities.Dtos;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace aracyonetim.services.Services
 {
@@ -32,23 +32,23 @@ namespace aracyonetim.services.Services
                 {
                     id = s.Id,
                     text = s.Isim
-                }).OrderBy(o=>o.text), "id");
+                }).OrderBy(o => o.text), "id");
         }
         public async Task<DataGridDto<DxSelectDto>> List(Lookup model, int id)
         {
             return await GenerateDataGridDto<DxSelectDto>.Store(_lookupListRepository.All()
-                .Where(w => w.Tip == model && w.ParentId==id)
+                .Where(w => w.Tip == model && w.ParentId == id)
                 .Select(s => new DxSelectDto
                 {
                     id = s.Id,
                     text = s.Isim
-                }).OrderBy(o=>o.text), "id");
+                }).OrderBy(o => o.text), "id");
         }
         public async Task<int> First(Lookup model)
         {
             return await _lookupListRepository.All()
                 .Where(w => w.Tip == model)
-                .OrderBy(o=>o.Id)
+                .OrderBy(o => o.Id)
                 .Select(s => s.Id).FirstAsync();
         }
 

@@ -1,11 +1,11 @@
-using System;
-using System.Threading.Tasks;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Services;
 using aracyonetim.web.Filters;
 using aracyonetim.web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace aracyonetim.web.Controllers
 {
@@ -13,9 +13,9 @@ namespace aracyonetim.web.Controllers
     [UserFilter]
     public class MusterilerController : Controller, IGenericController<Musteri>
     {
-        private readonly  IMusteriService _musteriService;
-        private readonly  IKullaniciService _kullaniciService;
-        private readonly  IRolService _rolService;
+        private readonly IMusteriService _musteriService;
+        private readonly IKullaniciService _kullaniciService;
+        private readonly IRolService _rolService;
 
         public MusterilerController(IMusteriService musteriService,
             IKullaniciService kullaniciService,
@@ -25,7 +25,7 @@ namespace aracyonetim.web.Controllers
             _kullaniciService = kullaniciService;
             _rolService = rolService;
         }
-        
+
         [MenuFilter]
         public IActionResult Index()
         {
@@ -35,7 +35,7 @@ namespace aracyonetim.web.Controllers
         public async Task<IActionResult> List()
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result =await _musteriService.List(firmaid);
+            var result = await _musteriService.List(firmaid);
             return Json(result);
         }
 
@@ -47,13 +47,13 @@ namespace aracyonetim.web.Controllers
             return Json(result);
         }
 
-        public async Task<IActionResult> Save([FromForm]Musteri musteri)
+        public async Task<IActionResult> Save([FromForm] Musteri musteri)
         {
             try
             {
-                musteri.FirmaId= HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+                musteri.FirmaId = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
                 musteri.CreatorId = HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId).Value;
-                musteri.Kullanici.RolId =await _rolService.MusteriRolId();
+                musteri.Kullanici.RolId = await _rolService.MusteriRolId();
                 if (musteri.Id == 0)
                 {
                     musteri.KullaniciId = await _kullaniciService.Save(musteri.Kullanici);
@@ -66,7 +66,7 @@ namespace aracyonetim.web.Controllers
                     musteri.Kullanici.Id = model.KullaniciId;
                     musteri.KullaniciId = model.KullaniciId;
                     await _kullaniciService.Update(musteri.Kullanici);
-                    
+
                     await _musteriService.Update(musteri);
                 }
 

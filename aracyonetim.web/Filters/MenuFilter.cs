@@ -1,15 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using aracyonetim.entities.Dtos;
 using aracyonetim.web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace aracyonetim.web.Filters
 {
-    public class MenuFilter: ActionFilterAttribute
+    public class MenuFilter : ActionFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
@@ -19,15 +18,15 @@ namespace aracyonetim.web.Filters
         {
             var mentstr = context.HttpContext.Session.GetString(Metrics.SessionKeys.MenuAdresler);
             var menulist = JsonConvert.DeserializeObject<List<string>>(mentstr).ToList();
-            
+
             var controllerName = ((ControllerBase)context.Controller)
                 .ControllerContext.ActionDescriptor.ControllerName;
             var actionName = ((ControllerBase)context.Controller)
                 .ControllerContext.ActionDescriptor.ActionName;
-                
+
             if (!menulist.Contains(controllerName.ToLower()))
             {
-                context.Result =new  RedirectResult("/Account/Login");
+                context.Result = new RedirectResult("/Account/Login");
             }
         }
     }

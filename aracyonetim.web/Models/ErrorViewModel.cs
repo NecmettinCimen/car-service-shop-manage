@@ -1,5 +1,3 @@
-using System;
-
 namespace aracyonetim.web.Models
 {
     public class ErrorViewModel

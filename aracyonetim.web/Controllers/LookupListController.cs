@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Services;
 using aracyonetim.web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace aracyonetim.web.Controllers
 {
@@ -10,7 +10,7 @@ namespace aracyonetim.web.Controllers
     [UserFilter]
     public class LookupListController : Controller
     {
-        private readonly  ILookupListService _lookupListService;
+        private readonly ILookupListService _lookupListService;
 
         public LookupListController(ILookupListService lookupListService)
         {
@@ -22,7 +22,7 @@ namespace aracyonetim.web.Controllers
             var result = await _lookupListService.List(Lookup.Marka);
             return Json(result);
         }
-        
+
         public async Task<IActionResult> Yakit()
         {
             var result = await _lookupListService.List(Lookup.Yakit);

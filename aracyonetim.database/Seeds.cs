@@ -1056,6 +1056,6 @@ namespace aracyonetim.database
             "Düzce-Gümüşova",
             "Düzce-Kaynaşlı",
         };
-        
+
     }
 }

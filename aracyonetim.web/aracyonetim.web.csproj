@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\aracyonetim.entities\aracyonetim.entities.csproj" />
-    <ProjectReference Include="..\aracyonetim.services\aracyonetim.services.csproj" />
+    <ProjectReference Include="..\aracyonetim.entities\AracYonetim.Entities.csproj" />
+    <ProjectReference Include="..\aracyonetim.services\AracYonetim.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using aracyonetim.entities.Dtos;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace aracyonetim.services.Services
 {
@@ -36,7 +36,7 @@ namespace aracyonetim.services.Services
 
         public async Task<int> First()
         {
-            return await _rolRepository.All().OrderBy(o=>o.Id).Select(s => s.Id).FirstAsync();
+            return await _rolRepository.All().OrderBy(o => o.Id).Select(s => s.Id).FirstAsync();
         }
 
         public async Task Save(Rol rol, string menuler)
@@ -44,7 +44,7 @@ namespace aracyonetim.services.Services
             var rolid = await _rolRepository.Save(rol);
             foreach (var menuno in menuler.Split(","))
                 await _rolMenuRepository.Save(new RolMenu
-                    {CreatorId = rol.CreatorId, FirmaId = rol.FirmaId, MenuNo = int.Parse(menuno), RolId = rolid});
+                { CreatorId = rol.CreatorId, FirmaId = rol.FirmaId, MenuNo = int.Parse(menuno), RolId = rolid });
         }
 
         public async Task Update(Rol rol, string menuler)
@@ -56,7 +56,7 @@ namespace aracyonetim.services.Services
 
             foreach (var menuno in menuler.Split(","))
                 await _rolMenuRepository.Save(new RolMenu
-                    {CreatorId = rol.CreatorId, FirmaId = rol.FirmaId, MenuNo = int.Parse(menuno), RolId = rol.Id});
+                { CreatorId = rol.CreatorId, FirmaId = rol.FirmaId, MenuNo = int.Parse(menuno), RolId = rol.Id });
         }
 
         public async Task Delete(int id, int firmaid)
@@ -72,7 +72,7 @@ namespace aracyonetim.services.Services
             {
                 Id = id,
                 Isim = rol.Isim,
-                MenuList = MenuManager.MenuList.Where(s => menus.Contains(s.No)).Select(s=>new DxSelectDto
+                MenuList = MenuManager.MenuList.Where(s => menus.Contains(s.No)).Select(s => new DxSelectDto
                 {
                     id = s.No,
                     text = s.Isim
@@ -87,9 +87,9 @@ namespace aracyonetim.services.Services
 
         public async Task<DataGridDto<DxSelectDto>> Select(int firmaid)
         {
-            var result = await _rolRepository.All().Where(w => !w.FirmaId.HasValue).Select(s=>new DxSelectDto{id = s.Id,text = s.Isim}).ToListAsync();
-            result.AddRange(await  _rolRepository.All(firmaid).Select(s=>new DxSelectDto{id = s.Id,text = s.Isim}).ToListAsync());
-            return  new DataGridDto<DxSelectDto>
+            var result = await _rolRepository.All().Where(w => !w.FirmaId.HasValue).Select(s => new DxSelectDto { id = s.Id, text = s.Isim }).ToListAsync();
+            result.AddRange(await _rolRepository.All(firmaid).Select(s => new DxSelectDto { id = s.Id, text = s.Isim }).ToListAsync());
+            return new DataGridDto<DxSelectDto>
             {
                 data = result
             };
@@ -104,7 +104,7 @@ namespace aracyonetim.services.Services
 
         public async Task<int> MusteriRolId()
         {
-            return await _rolRepository.All().Where(o=>o.Isim == "Müşteri").Select(s => s.Id).FirstAsync();
+            return await _rolRepository.All().Where(o => o.Isim == "Müşteri").Select(s => s.Id).FirstAsync();
         }
 
         public async Task<Rol> Find(int rolId, int rolFirmaId)

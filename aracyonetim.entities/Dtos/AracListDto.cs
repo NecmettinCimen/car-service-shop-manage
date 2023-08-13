@@ -17,5 +17,8 @@ namespace aracyonetim.entities.Dtos
         public string Plaka { get; set; }
         public string RuhsatSahibiAdSoyad { get; set; }
         public bool EnSonBakimYetkiliServis { get; set; }
+        public DateTime? AlisTarihi { get; set; }
+        public DateTime? SatisTarihi { get; set; }
+        public string SahibindenIlanNo { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace aracyonetim.entities.Tables
         Ilce,
         Bakim
     }
-    public class LookupList:BaseEntity
+    public class LookupList : BaseEntity
     {
         [Required]
         public Lookup Tip { get; set; }

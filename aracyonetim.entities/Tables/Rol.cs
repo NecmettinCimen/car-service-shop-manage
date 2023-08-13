@@ -1,19 +1,18 @@
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace aracyonetim.entities.Tables
 {
-    public class Rol:BaseEntity
+    public class Rol : BaseEntity
     {
         [Required]
         [MaxLength(50)]
         public string Isim { get; set; }
     }
-    
-    public class RolMenu:BaseEntity
+
+    public class RolMenu : BaseEntity
     {
         [Required] public int MenuNo { get; set; }
-        [Required] 
+        [Required]
         public int RolId { get; set; }
         public Rol Rol { get; set; }
     }

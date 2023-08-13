@@ -1,8 +1,9 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace aracyonetim.entities.Tables
 {
-    public class Arac:BaseEntity
+    public class Arac : BaseEntity
     {
         [Required]
         [MaxLength(20)]
@@ -21,5 +22,19 @@ namespace aracyonetim.entities.Tables
         public bool Otomatik { get; set; }
         public string RuhsatSahibiAdSoyad { get; set; }
         public bool EnSonBakimYetkiliServis { get; set; }
+        public DateTime? AlisTarihi { get; set; }
+        public DateTime? SatisTarihi { get; set; }
+        public double? AlisGunuDolar { get; set; }
+        public double? SatisGunuDolar { get; set; }
+        public double? AlisFiyat { get; set; }
+        public double? SatisFiyat { get; set; }
+        public string SahibindenIlanNo { get; set; }
+        public string SahibindenAciklama { get; set; }
+        public string ExperBilgisi { get; set; }
+        public string HasarKaydiBilgisi { get; set; }
+        [MaxLength(15)]
+        public string AliciTC { get; set; }
+        [MaxLength(15)]
+        public string SaticiTC { get; set; }
     }
 }

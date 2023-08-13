@@ -5,8 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\aracyonetim.database\aracyonetim.database.csproj" />
-      <ProjectReference Include="..\aracyonetim.entities\aracyonetim.entities.csproj" />
+      <ProjectReference Include="..\aracyonetim.database\AracYonetim.Database.csproj" />
+      <ProjectReference Include="..\aracyonetim.entities\AracYonetim.Entities.csproj" />
     </ItemGroup>
 
 </Project>

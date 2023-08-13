@@ -30,6 +30,19 @@ namespace aracyonetim.web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AliciTC")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<double?>("AlisFiyat")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("AlisGunuDolar")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("AlisTarihi")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -39,8 +52,14 @@ namespace aracyonetim.web.Migrations
                     b.Property<bool>("EnSonBakimYetkiliServis")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ExperBilgisi")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("FirmaId")
                         .HasColumnType("int");
+
+                    b.Property<string>("HasarKaydiBilgisi")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -70,6 +89,25 @@ namespace aracyonetim.web.Migrations
                     b.Property<string>("RuhsatSahibiAdSoyad")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SahibindenAciklama")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SahibindenIlanNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SaticiTC")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<double?>("SatisFiyat")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("SatisGunuDolar")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("SatisTarihi")
+                        .HasColumnType("datetime2");
+
                     b.Property<short>("Status")
                         .HasColumnType("smallint");
 
@@ -91,6 +129,168 @@ namespace aracyonetim.web.Migrations
                     b.HasIndex("YakitId");
 
                     b.ToTable("Arac");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.AracGider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aciklama")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AracId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Fiyat")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("GiderTarih")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GiderTip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.ToTable("AracGider");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.AracHasar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AracId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArkaKaput")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArkaTampon")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MotorKaputu")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OnTampon")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SagArkaCamurluk")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SagArkaKapi")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SagOnCamurluk")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SagOnKapi")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SolArkaCamurluk")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SolArkaKapi")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SolOnCamurluk")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SolOnKapi")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("Tavan")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.ToTable("AracHasar");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.AracOrtak", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aciklama")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AracId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FirmaId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Fiyat")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Oran")
+                        .HasColumnType("float");
+
+                    b.Property<string>("OrtakAdi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmaId");
+
+                    b.ToTable("AracOrtak");
                 });
 
             modelBuilder.Entity("aracyonetim.entities.Tables.BakimTalebi", b =>
@@ -12985,6 +13185,33 @@ namespace aracyonetim.web.Migrations
                     b.Navigation("Marka");
 
                     b.Navigation("Yakit");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.AracGider", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.Navigation("Firma");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.AracHasar", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.Navigation("Firma");
+                });
+
+            modelBuilder.Entity("aracyonetim.entities.Tables.AracOrtak", b =>
+                {
+                    b.HasOne("aracyonetim.entities.Tables.Firma", "Firma")
+                        .WithMany()
+                        .HasForeignKey("FirmaId");
+
+                    b.Navigation("Firma");
                 });
 
             modelBuilder.Entity("aracyonetim.entities.Tables.BakimTalebi", b =>

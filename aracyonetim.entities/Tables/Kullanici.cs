@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace aracyonetim.entities.Tables
 {
-    public class Kullanici:BaseEntity
+    public class Kullanici : BaseEntity
     {
         [Required]
         [MaxLength(100)]
@@ -18,13 +18,13 @@ namespace aracyonetim.entities.Tables
         public string Telefon { get; set; }
         [MaxLength(100)]
         public string Unvan { get; set; }
-        
+
         public int IlceId { get; set; }
-        
+
         [MaxLength(250)]
         public string Adres { get; set; }
-        
-        [Required] 
+
+        [Required]
         public int RolId { get; set; }
         public Rol Rol { get; set; }
     }

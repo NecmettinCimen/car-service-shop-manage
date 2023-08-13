@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using aracyonetim.services.Services;
+﻿using aracyonetim.services.Services;
+using aracyonetim.web.Filters;
+using aracyonetim.web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using aracyonetim.web.Models;
-using aracyonetim.web.Filters;
-using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace aracyonetim.web.Controllers
 {
@@ -16,9 +13,9 @@ namespace aracyonetim.web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IRaporService _raporService;  
+        private readonly IRaporService _raporService;
 
-        public HomeController(ILogger<HomeController> logger, 
+        public HomeController(ILogger<HomeController> logger,
             IRaporService raporService)
         {
             _logger = logger;
@@ -28,20 +25,20 @@ namespace aracyonetim.web.Controllers
         [MenuFilter]
         public async Task<IActionResult> Index()
         {
-            var firmaId= HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+            var firmaId = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
             var result = await _raporService.Sayilar(firmaId);
             return View(result);
         }
-        
+
         public async Task<IActionResult> TarihlereGoreBakimTalepleri()
         {
-            var firmaId= HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+            var firmaId = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
             var result = await _raporService.TarihlereGoreBakimTalepleri(firmaId);
             return Json(result);
         }
         public async Task<IActionResult> AracMarkalari()
         {
-            var firmaId= HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
+            var firmaId = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
             var result = await _raporService.AracMarkalari(firmaId);
             return Json(result);
         }

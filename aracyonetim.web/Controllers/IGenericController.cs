@@ -1,10 +1,10 @@
-using System.Threading.Tasks;
 using aracyonetim.web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace aracyonetim.web.Controllers
 {
-    public interface IGenericController<T> where  T : class
+    public interface IGenericController<T> where T : class
     {
         [MenuFilter]
         public Task<IActionResult> List();

@@ -5,15 +5,15 @@ function clearForm() {
     form.itemOption('silbtn', 'visible', false);
 }
 
-let deleteUrl="";
+let deleteUrl = "";
 function deleteItem() {
-    fetch(deleteUrl+'?id=' + $('[name="id"]').val())
+    fetch(deleteUrl + '?id=' + $('[name="id"]').val())
         .then(res => res.json())
         .then(res => {
 
             if (res) {
                 DevExpress.ui.notify("Başarılı! İşlem tamamlandı.", "success", 1000);
-                initData(tpage.url+"/list");
+                initData(tpage.url + "/list");
                 $('#genericmodal').modal('hide')
             } else {
                 DevExpress.ui.notify("Başarısız! Lütfen daha sonra tekrar deneyiniz.", "error", 1000);
@@ -26,35 +26,38 @@ function deleteForm() {
     $('#deletemodal').modal('show')
 }
 var tpage;
-$(function() {
+$(function () {
     fetch('/Yetkiler/RolMenuler')
-        .then(res=>res.json())
-        .then(res=>{
-            res.map(item=>$('#menuul').append('<li class="nav-item"><a href="'+item.adres+'" class="nav-link"><i data-feather="'+item.icon+'"></i> <span>'+item.isim+'</span></a></li>'))
-            ;feather.replace();
-            $('[href="'+tpage.url+'"]').parent().addClass("active");})
+        .then(res => res.json())
+        .then(res => {
+            res.map(item =>
+                $('#menuul').append('<li class="nav-item"><a href="' + item.adres + '" class="nav-link"><i data-feather="' + item.icon + '"></i> <span>' + item.isim + '</span></a></li>'));
+            feather.replace();
+            if (tpage)
+            $('[href="' + tpage.url + '"]').parent().addClass("active");
+        })
     let page = pages.find(f => f.url.toLowerCase() == window.location.pathname.toLowerCase());
-    tpage=page;
     if (page)
         pageInit(page)
 });
 
 function pageInit(page) {
-    if(page.onInit){
+    tpage = page;
+    if (page.onInit) {
         page.onInit()
     }
     $('.pageHeader').text(page.name);
-    
-    $('#genericforparent').attr("action",page.url+"/Save");
-    
-    
-    deleteUrl=page.url+"/Remove";
-    
+
+    $('#genericforparent').attr("action", page.url + "/Save");
+
+
+    deleteUrl = page.url + "/Remove";
+
     $("#genericform").dxForm({
         labelLocation: "top",
-        items:page.form
+        items: page.form
     });
-    
+
     $("#generictable").dxDataGrid({
         paging: {
             pageSize: 10
@@ -119,10 +122,10 @@ function pageInit(page) {
         },
         columns: page.table
     });
-    initData(page.url+"/List");
+    initData(page.url + "/List");
 }
 
-$('form').on('submit', function(event) {
+$('form').on('submit', function (event) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     fetch(event.currentTarget.action, {
@@ -132,7 +135,7 @@ $('form').on('submit', function(event) {
         .then(res => {
             if (res) {
                 DevExpress.ui.notify("Başarılı! İşlem tamamlandı.", "success", 1000);
-                initData(tpage.url+"/list");
+                initData(tpage.url + "/list");
                 $('#genericmodal').modal('hide')
             } else {
                 DevExpress.ui.notify("Başarısız! Lütfen daha sonra tekrar deneyiniz.", "error", 1000);
@@ -145,6 +148,6 @@ function initData(url) {
     fetch(url)
         .then(res => res.json())
         .then(items => {
-            $("#generictable").dxDataGrid("instance").option("dataSource", {store:{type:'array',data:items.data,totalCount:items.totalCount,key:"id"}})
+            $("#generictable").dxDataGrid("instance").option("dataSource", { store: { type: 'array', data: items.data, totalCount: items.totalCount, key: "id" } })
         });
 }

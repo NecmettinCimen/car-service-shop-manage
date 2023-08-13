@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 #nullable disable
 
@@ -102,6 +102,18 @@ namespace aracyonetim.web.Migrations
                     Otomatik = table.Column<bool>(type: "bit", nullable: false),
                     RuhsatSahibiAdSoyad = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EnSonBakimYetkiliServis = table.Column<bool>(type: "bit", nullable: false),
+                    AlisTarihi = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SatisTarihi = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AlisGunuDolar = table.Column<double>(type: "float", nullable: true),
+                    SatisGunuDolar = table.Column<double>(type: "float", nullable: true),
+                    AlisFiyat = table.Column<double>(type: "float", nullable: true),
+                    SatisFiyat = table.Column<double>(type: "float", nullable: true),
+                    SahibindenIlanNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SahibindenAciklama = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExperBilgisi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HasarKaydiBilgisi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AliciTC = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    SaticiTC = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     Status = table.Column<short>(type: "smallint", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatorId = table.Column<int>(type: "int", nullable: false),

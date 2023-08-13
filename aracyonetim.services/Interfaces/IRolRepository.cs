@@ -1,11 +1,9 @@
-using aracyonetim.database;
 using aracyonetim.entities.Tables;
-using aracyonetim.services.Repositories;
 
 namespace aracyonetim.services.Interfaces
 {
-    public interface IRolRepository :IGenericRepository<Rol>
+    public interface IRolRepository : IGenericRepository<Rol>
     {
-        
+
     }
 }

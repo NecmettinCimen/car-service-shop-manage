@@ -1,7 +1,7 @@
-using System.Threading.Tasks;
 using aracyonetim.entities.Tables;
 using aracyonetim.services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace aracyonetim.services.Services
 {
@@ -11,7 +11,7 @@ namespace aracyonetim.services.Services
         public Task Update(Firma model);
         public Task<Firma> Get(int id);
     }
-    public class FirmaService:IFirmaService
+    public class FirmaService : IFirmaService
     {
         private readonly IFirmaRepository _firmaRepository;
 
@@ -32,6 +32,6 @@ namespace aracyonetim.services.Services
         {
             return await _firmaRepository.All().FirstAsync(f => f.Id == id);
         }
-        
+
     }
 }
