@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\aracyonetim.database\AracYonetim.Database.csproj" />
-      <ProjectReference Include="..\aracyonetim.entities\AracYonetim.Entities.csproj" />
+      <ProjectReference Include="..\aracyonetim.database\aracyonetim.database.csproj" />
     </ItemGroup>
 
 </Project>

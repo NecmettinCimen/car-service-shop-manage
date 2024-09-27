@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AracYonetim.Web", "aracyonetim.web\AracYonetim.Web.csproj", "{F34A1E80-1E5E-4E88-9F4B-F76552D3C07B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aracyonetim.Web", "aracyonetim.web\aracyonetim.web.csproj", "{F34A1E80-1E5E-4E88-9F4B-F76552D3C07B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AracYonetim.Entities", "aracyonetim.entities\AracYonetim.Entities.csproj", "{FB6EE004-A5B0-440C-ACF3-ACAF6329CD9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aracyonetim.Entities", "aracyonetim.entities\aracyonetim.entities.csproj", "{FB6EE004-A5B0-440C-ACF3-ACAF6329CD9E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AracYonetim.Database", "aracyonetim.database\AracYonetim.Database.csproj", "{27356984-2313-4272-B0B9-4A6215AA4037}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aracyonetim.Database", "aracyonetim.database\aracyonetim.database.csproj", "{27356984-2313-4272-B0B9-4A6215AA4037}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AracYonetim.Services", "aracyonetim.services\AracYonetim.Services.csproj", "{2B060B4B-84D2-4446-AA54-476A574817BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aracyonetim.Services", "aracyonetim.services\aracyonetim.services.csproj", "{2B060B4B-84D2-4446-AA54-476A574817BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
