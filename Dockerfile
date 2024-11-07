@@ -9,7 +9,7 @@ COPY ./aracyonetim.services/ ./aracyonetim.services/
 COPY ./aracyonetim.entities/ ./aracyonetim.entities/
 
 # Build and publish a release
-RUN dotnet publish ./aracyonetim.web/aracyonetim.web.csproj -c Release -o out /p:Version=${BUILD_NUMBER}
+RUN dotnet publish ./aracyonetim.web/aracyonetim.web.csproj -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0

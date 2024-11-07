@@ -18,6 +18,8 @@
     <a href="https://github.com/necmettincimen/aracyonetim"><strong>Explore the docs »</strong></a>
     <br />
     <br />
+    <a href="https://car-service-shop-manage.necmettincimen.xyz/Account/Login">View Demo</a>
+    ·
     <a href="https://github.com/necmettincimen/aracyonetim/issues">Report Bug</a>
     ·
     <a href="https://github.com/necmettincimen/aracyonetim/issues">Request Feature</a>
