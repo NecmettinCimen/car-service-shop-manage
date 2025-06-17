@@ -1,8 +1,8 @@
-using aracyonetim.web.Filters;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using CarServiceShopManage.Web.Filters;
+using Microsoft.AspNetCore.Mvc;
 
-namespace aracyonetim.web.Controllers
+namespace CarServiceShopManage.Web.Controllers
 {
     public interface IGenericController<T> where T : class
     {

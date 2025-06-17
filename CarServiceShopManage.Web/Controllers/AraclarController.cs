@@ -1,25 +1,18 @@
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Services;
-using aracyonetim.web.Filters;
-using aracyonetim.web.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Services;
+using CarServiceShopManage.Web.Filters;
+using CarServiceShopManage.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace aracyonetim.web.Controllers
+namespace CarServiceShopManage.Web.Controllers
 {
 
     [UserFilter]
-    public class AraclarController : Controller, IGenericController<Arac>
+    public class AraclarController(IAracService aracService) : Controller, IGenericController<Arac>
     {
-        private readonly IAracService _aracService;
-
-        public AraclarController(IAracService aracService)
-        {
-            _aracService = aracService;
-        }
-
         [MenuFilter]
         public IActionResult Index()
         {
@@ -29,21 +22,21 @@ namespace aracyonetim.web.Controllers
         public async Task<IActionResult> List()
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _aracService.List(firmaid);
+            var result = await aracService.List(firmaid);
             return Json(result);
         }
 
         public async Task<IActionResult> Select()
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _aracService.Select(firmaid);
+            var result = await aracService.Select(firmaid);
             return Json(result);
         }
 
         public async Task<IActionResult> Get(int id)
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _aracService.Get(id, firmaid);
+            var result = await aracService.Get(id, firmaid);
             return Json(result);
         }
 
@@ -55,11 +48,11 @@ namespace aracyonetim.web.Controllers
                 arac.CreatorId = HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId).Value;
                 if (arac.Id == 0)
                 {
-                    await _aracService.Save(arac);
+                    await aracService.Save(arac);
                 }
                 else
                 {
-                    await _aracService.Update(arac);
+                    await aracService.Update(arac);
                 }
 
                 return Json(true);
@@ -75,7 +68,7 @@ namespace aracyonetim.web.Controllers
             try
             {
                 var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-                await _aracService.Delete(id, firmaid);
+                await aracService.Delete(id, firmaid);
                 return Json(true);
             }
             catch (Exception e)

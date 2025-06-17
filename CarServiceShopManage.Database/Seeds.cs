@@ -1,4 +1,4 @@
-namespace aracyonetim.database
+namespace CarServiceShopManage.Database
 {
     public class Seeds
     {

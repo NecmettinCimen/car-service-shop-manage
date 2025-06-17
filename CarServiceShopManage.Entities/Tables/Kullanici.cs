@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace aracyonetim.entities.Tables
+namespace CarServiceShopManage.Entities.Tables
 {
     public class Kullanici : BaseEntity
     {
@@ -11,7 +11,7 @@ namespace aracyonetim.entities.Tables
         [MaxLength(100)]
         public string Eposta { get; set; }
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Parola { get; set; }
         [Required]
         [MaxLength(15)]

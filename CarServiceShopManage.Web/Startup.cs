@@ -1,7 +1,7 @@
-using aracyonetim.database;
-using aracyonetim.services.Interfaces;
-using aracyonetim.services.Repositories;
-using aracyonetim.services.Services;
+using CarServiceShopManage.Database;
+using CarServiceShopManage.Services.Interfaces;
+using CarServiceShopManage.Services.Repositories;
+using CarServiceShopManage.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,24 +9,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace aracyonetim.web
+namespace CarServiceShopManage.Web
 {
-    public class Startup
+    public class Startup(IConfiguration configuration, IWebHostEnvironment env)
     {
-        public IWebHostEnvironment Env { get; set; }
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
-        {
-            Configuration = configuration;
-            Env = env;
-        }
+        public IWebHostEnvironment Env { get; set; } = env;
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; } = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AracYonetimContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AracYonetimDbConnString"), b => b.MigrationsAssembly("AracYonetim.Web")));
+                options.UseSqlite(Configuration.GetConnectionString("AracYonetimDbConnString"), b => b.MigrationsAssembly("CarServiceShopManage.Database")));
 
             var builder = services.AddRazorPages();
 

@@ -1,12 +1,12 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IAracHasarService
     {
@@ -16,28 +16,20 @@ namespace aracyonetim.services.Services
         public Task Delete(int id, int firmaid);
         public Task<AracHasar> Get(int id, int firmaid);
     }
-    public class AracHasarService : IAracHasarService
+    public class AracHasarService(
+        IAracHasarRepository aracHasarRepository,
+        IKullaniciRepository kullaniciRepository,
+        IAracRepository aracRepository,
+        ILookupListRepository lookupListRepository)
+        : IAracHasarService
     {
-        private readonly IAracHasarRepository _aracHasarRepository;
-        private readonly IAracRepository _aracRepository;
-        private readonly IKullaniciRepository _kullaniciRepository;
-        private readonly ILookupListRepository _lookupListRepository;
-
-        public AracHasarService(IAracHasarRepository aracHasarRepository,
-            IKullaniciRepository kullaniciRepository,
-            IAracRepository aracRepository,
-            ILookupListRepository lookupListRepository)
-        {
-            _aracHasarRepository = aracHasarRepository;
-            _kullaniciRepository = kullaniciRepository;
-            _lookupListRepository = lookupListRepository;
-            _aracRepository = aracRepository;
-        }
+        private readonly IKullaniciRepository _kullaniciRepository = kullaniciRepository;
+        private readonly ILookupListRepository _lookupListRepository = lookupListRepository;
 
         public async Task<DataGridDto<AracHasarListDto>> List(int firmaid)
         {
-            var list = await GenerateDataGridDto<AracHasarListDto>.Store((from a in _aracHasarRepository.All().Where(w => w.FirmaId == firmaid)
-                                                                      join arac in _aracRepository.All() on a.AracId equals arac.Id
+            var list = await GenerateDataGridDto<AracHasarListDto>.Store((from a in aracHasarRepository.All().Where(w => w.FirmaId == firmaid)
+                                                                      join arac in aracRepository.All() on a.AracId equals arac.Id
                                                                       select new AracHasarListDto
                                                                       {
                                                                           Id = a.Id,
@@ -93,23 +85,23 @@ namespace aracyonetim.services.Services
 
         public async Task<int> Save(AracHasar model)
         {
-            return await _aracHasarRepository.Save(model);
+            return await aracHasarRepository.Save(model);
         }
 
         public async Task<bool> Update(AracHasar model)
         {
-            await _aracHasarRepository.Update(model);
+            await aracHasarRepository.Update(model);
             return true;
         }
 
         public async Task Delete(int id, int firmaid)
         {
-            await _aracHasarRepository.Delete(id, firmaid);
+            await aracHasarRepository.Delete(id, firmaid);
         }
 
         public async Task<AracHasar> Get(int id, int firmaid)
         {
-            return await _aracHasarRepository.All().Where(f => f.Id == id && f.FirmaId == firmaid).FirstAsync();
+            return await aracHasarRepository.All().Where(f => f.Id == id && f.FirmaId == firmaid).FirstAsync();
         }
     }
 }

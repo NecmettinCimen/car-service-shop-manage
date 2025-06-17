@@ -1,22 +1,16 @@
-using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IMailService
     {
         public Task Send(string to, string subject, string body);
     }
-    public class MailService : IMailService
+    public class MailService(IConfiguration configuration) : IMailService
     {
-        private readonly IConfiguration configuration;
-
-        public MailService(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-        }
         public async Task Send(string to, string subject, string body)
         {
             try

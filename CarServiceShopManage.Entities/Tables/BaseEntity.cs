@@ -1,6 +1,6 @@
 using System;
 
-namespace aracyonetim.entities.Tables
+namespace CarServiceShopManage.Entities.Tables
 {
     public class BaseEntity
     {

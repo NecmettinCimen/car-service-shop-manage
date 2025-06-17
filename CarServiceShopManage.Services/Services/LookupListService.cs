@@ -1,11 +1,11 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface ILookupListService
     {
@@ -15,18 +15,11 @@ namespace aracyonetim.services.Services
         Task<int> GetParentId(int ilceid);
     }
 
-    public class LookupListService : ILookupListService
+    public class LookupListService(ILookupListRepository lookupListRepository) : ILookupListService
     {
-        private readonly ILookupListRepository _lookupListRepository;
-
-        public LookupListService(ILookupListRepository lookupListRepository)
-        {
-            _lookupListRepository = lookupListRepository;
-        }
-
         public async Task<DataGridDto<DxSelectDto>> List(Lookup model)
         {
-            return await GenerateDataGridDto<DxSelectDto>.Store(_lookupListRepository.All()
+            return await GenerateDataGridDto<DxSelectDto>.Store(lookupListRepository.All()
                 .Where(w => w.Tip == model)
                 .Select(s => new DxSelectDto
                 {
@@ -36,7 +29,7 @@ namespace aracyonetim.services.Services
         }
         public async Task<DataGridDto<DxSelectDto>> List(Lookup model, int id)
         {
-            return await GenerateDataGridDto<DxSelectDto>.Store(_lookupListRepository.All()
+            return await GenerateDataGridDto<DxSelectDto>.Store(lookupListRepository.All()
                 .Where(w => w.Tip == model && w.ParentId == id)
                 .Select(s => new DxSelectDto
                 {
@@ -46,7 +39,7 @@ namespace aracyonetim.services.Services
         }
         public async Task<int> First(Lookup model)
         {
-            return await _lookupListRepository.All()
+            return await lookupListRepository.All()
                 .Where(w => w.Tip == model)
                 .OrderBy(o => o.Id)
                 .Select(s => s.Id).FirstAsync();
@@ -54,7 +47,7 @@ namespace aracyonetim.services.Services
 
         public async Task<int> GetParentId(int ilceid)
         {
-            return await _lookupListRepository.Find(f => f.Id == ilceid).Select(s => s.ParentId.Value).FirstAsync();
+            return await lookupListRepository.Find(f => f.Id == ilceid).Select(s => s.ParentId.Value).FirstAsync();
         }
     }
 }

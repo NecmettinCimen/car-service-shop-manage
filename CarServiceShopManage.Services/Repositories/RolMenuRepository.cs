@@ -1,13 +1,9 @@
-using aracyonetim.database;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
+using CarServiceShopManage.Database;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
 
-namespace aracyonetim.services.Repositories
+namespace CarServiceShopManage.Services.Repositories
 {
-    public class RolMenuRepository : GenericRepository<RolMenu>, IRolMenuRepository
-    {
-        public RolMenuRepository(AracYonetimContext dbContext) : base(dbContext)
-        {
-        }
-    }
+    public class RolMenuRepository(AracYonetimContext dbContext)
+        : GenericRepository<RolMenu>(dbContext), IRolMenuRepository;
 }

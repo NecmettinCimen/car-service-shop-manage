@@ -1,6 +1,6 @@
 using System;
 
-namespace aracyonetim.entities.Dtos
+namespace CarServiceShopManage.Entities.Dtos
 {
     public class BakimTalebiListDto
     {

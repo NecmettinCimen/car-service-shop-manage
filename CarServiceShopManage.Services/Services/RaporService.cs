@@ -1,10 +1,10 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IRaporService
     {
@@ -12,36 +12,22 @@ namespace aracyonetim.services.Services
         public Task<DataGridDto<ChartDto>> TarihlereGoreBakimTalepleri(int firmaid);
         public Task<DataGridDto<ChartDto>> AracMarkalari(int firmaid);
     }
-    public class RaporService : IRaporService
+    public class RaporService(
+        IAracRepository aracRepository,
+        IKullaniciRepository kullaniciRepository,
+        IBakimTalebiRepository bakimTalebiRepository,
+        IMusteriRepository musteriRepository,
+        IChartDtoRepository chartRepository)
+        : IRaporService
     {
-        private readonly IAracRepository _aracRepository;
-        private readonly IKullaniciRepository _kullaniciRepository;
-        private readonly IBakimTalebiRepository _bakimTalebiRepository;
-        private readonly IMusteriRepository _musteriRepository;
-        private readonly IChartDtoRepository _chartRepository;
-
-        public RaporService(IAracRepository aracRepository,
-            IKullaniciRepository kullaniciRepository,
-            IBakimTalebiRepository bakimTalebiRepository,
-            IMusteriRepository musteriRepository,
-            IChartDtoRepository chartRepository
-            )
-        {
-            _aracRepository = aracRepository;
-            _kullaniciRepository = kullaniciRepository;
-            _bakimTalebiRepository = bakimTalebiRepository;
-            _musteriRepository = musteriRepository;
-            _chartRepository = chartRepository;
-        }
-
         public async Task<SayilarDto> Sayilar(int firmaid)
         {
             return new SayilarDto
             {
-                AracSayisi = await _aracRepository.All(firmaid).CountAsync(),
-                BakimTalebi = await _bakimTalebiRepository.All(firmaid).CountAsync(),
-                KullaniciSayisi = await _kullaniciRepository.All(firmaid).CountAsync(),
-                MusteriSayisi = await _musteriRepository.All(firmaid).CountAsync(),
+                AracSayisi = await aracRepository.All(firmaid).CountAsync(),
+                BakimTalebi = await bakimTalebiRepository.All(firmaid).CountAsync(),
+                KullaniciSayisi = await kullaniciRepository.All(firmaid).CountAsync(),
+                MusteriSayisi = await musteriRepository.All(firmaid).CountAsync(),
             };
         }
 
@@ -72,7 +58,7 @@ namespace aracyonetim.services.Services
 
         public async Task<DataGridDto<ChartDto>> TarihlereGoreBakimTalepleri(int firmaid)
         {
-            var result = await _chartRepository.FromSql(DateSql(
+            var result = await chartRepository.FromSql(DateSql(
                 $@"select convert(varchar,BakimTarihi,104) Isim, count(*) Sayi from BakimTalebi
                          where FirmaId={firmaid} and datepart(dayofyear ,BakimTarihi) = datepart(dayofyear,@i)
                          group by convert(varchar,BakimTarihi,104)",
@@ -87,7 +73,7 @@ namespace aracyonetim.services.Services
 
         public async Task<DataGridDto<ChartDto>> AracMarkalari(int firmaid)
         {
-            var result = await _chartRepository.FromSql(
+            var result = await chartRepository.FromSql(
                 $@"select isnull(LL.Isim, 'Belirsiz') Isim,
        Count(*) Sayi,
        getdate() CreateDate,

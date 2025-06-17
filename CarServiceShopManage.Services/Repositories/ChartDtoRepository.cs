@@ -1,13 +1,9 @@
-using aracyonetim.database;
-using aracyonetim.entities.Dtos;
-using aracyonetim.services.Interfaces;
+using CarServiceShopManage.Database;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Services.Interfaces;
 
-namespace aracyonetim.services.Repositories
+namespace CarServiceShopManage.Services.Repositories
 {
-    public class ChartDtoRepository : GenericRepository<ChartDto>, IChartDtoRepository
-    {
-        public ChartDtoRepository(AracYonetimContext dbContext) : base(dbContext)
-        {
-        }
-    }
+    public class ChartDtoRepository(AracYonetimContext dbContext)
+        : GenericRepository<ChartDto>(dbContext), IChartDtoRepository;
 }

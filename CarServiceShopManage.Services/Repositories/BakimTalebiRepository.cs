@@ -1,13 +1,9 @@
-using aracyonetim.database;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
+using CarServiceShopManage.Database;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
 
-namespace aracyonetim.services.Repositories
+namespace CarServiceShopManage.Services.Repositories
 {
-    public class BakimTalebiRepository : GenericRepository<BakimTalebi>, IBakimTalebiRepository
-    {
-        public BakimTalebiRepository(AracYonetimContext dbContext) : base(dbContext)
-        {
-        }
-    }
+    public class BakimTalebiRepository(AracYonetimContext dbContext)
+        : GenericRepository<BakimTalebi>(dbContext), IBakimTalebiRepository;
 }

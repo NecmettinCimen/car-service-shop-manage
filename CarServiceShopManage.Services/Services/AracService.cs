@@ -1,10 +1,10 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IAracService
     {
@@ -15,29 +15,20 @@ namespace aracyonetim.services.Services
         public Task Delete(int id, int firmaid);
         public Task<Arac> Get(int id, int firmaid);
     }
-    public class AracService : IAracService
+    public class AracService(
+        IAracRepository aracRepository,
+        ILookupListRepository lookupListRepository,
+        IKullaniciRepository kullaniciRepository)
+        : IAracService
     {
-        private readonly IAracRepository _aracRepository;
-        private readonly ILookupListRepository _lookupListRepository;
-        private readonly IKullaniciRepository _kullaniciRepository;
-
-        public AracService(IAracRepository aracRepository,
-            ILookupListRepository lookupListRepository,
-            IKullaniciRepository kullaniciRepository)
-        {
-            _aracRepository = aracRepository;
-            _lookupListRepository = lookupListRepository;
-            _kullaniciRepository = kullaniciRepository;
-        }
-
         public async Task<DataGridDto<AracListDto>> List(int firmaid)
         {
-            return await GenerateDataGridDto<AracListDto>.Store((from a in _aracRepository.All().Where(w => w.FirmaId == firmaid)
-                                                                 join m in _lookupListRepository.All() on a.MarkaId equals m.Id into mn
+            return await GenerateDataGridDto<AracListDto>.Store((from a in aracRepository.All().Where(w => w.FirmaId == firmaid)
+                                                                 join m in lookupListRepository.All() on a.MarkaId equals m.Id into mn
                                                                  from m in mn.DefaultIfEmpty()
-                                                                 join y in _lookupListRepository.All() on a.YakitId equals y.Id into yn
+                                                                 join y in lookupListRepository.All() on a.YakitId equals y.Id into yn
                                                                  from y in yn.DefaultIfEmpty()
-                                                                 join u in _kullaniciRepository.All() on a.CreatorId equals u.Id
+                                                                 join u in kullaniciRepository.All() on a.CreatorId equals u.Id
                                                                  select new AracListDto
                                                                  {
                                                                      Creator = u.AdSoyad,
@@ -63,28 +54,28 @@ namespace aracyonetim.services.Services
         public async Task<DataGridDto<DxSelectDto>> Select(int firmaid)
         {
             return await GenerateDataGridDto<DxSelectDto>.Store(
-                _aracRepository.All(firmaid).Select(s => new DxSelectDto { id = s.Id, text = s.Plaka, data = s }));
+                aracRepository.All(firmaid).Select(s => new DxSelectDto { id = s.Id, text = s.Plaka, data = s }));
         }
 
         public async Task<int> Save(Arac model)
         {
-            return await _aracRepository.Save(model);
+            return await aracRepository.Save(model);
         }
 
         public async Task<bool> Update(Arac model)
         {
-            await _aracRepository.Update(model);
+            await aracRepository.Update(model);
             return true;
         }
 
         public async Task Delete(int id, int firmaid)
         {
-            await _aracRepository.Delete(id, firmaid);
+            await aracRepository.Delete(id, firmaid);
         }
 
         public async Task<Arac> Get(int id, int firmaid)
         {
-            return await _aracRepository.Get(id, firmaid);
+            return await aracRepository.Get(id, firmaid);
         }
     }
 }

@@ -1,33 +1,26 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Services;
-using aracyonetim.web.Filters;
-using aracyonetim.web.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Services;
+using CarServiceShopManage.Web.Filters;
+using CarServiceShopManage.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace aracyonetim.web.Controllers
+namespace CarServiceShopManage.Web.Controllers
 {
 
     [UserFilter]
-    public class AracHasarController : Controller, IGenericController<AracHasar>
+    public class AracHasarController(
+        IAracHasarService aracHasarService,
+        IKullaniciService kullaniciService,
+        IRolService rolService)
+        : Controller, IGenericController<AracHasar>
     {
-        private readonly IAracHasarService _aracHasarService;
-        private readonly IKullaniciService _kullaniciService;
-        private readonly IRolService _rolService;
-
-        public AracHasarController(IAracHasarService aracHasarService,
-            IKullaniciService kullaniciService,
-            IRolService rolService)
-        {
-            _aracHasarService = aracHasarService;
-            _kullaniciService = kullaniciService;
-            _rolService = rolService;
-        }
+        private readonly IKullaniciService _kullaniciService = kullaniciService;
+        private readonly IRolService _rolService = rolService;
 
         [MenuFilter]
         public IActionResult Index()
@@ -38,14 +31,14 @@ namespace aracyonetim.web.Controllers
         public async Task<IActionResult> List()
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _aracHasarService.List(firmaid);
+            var result = await aracHasarService.List(firmaid);
             return Json(result);
         }
 
         public async Task<IActionResult> Get(int id)
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _aracHasarService.Get(id, firmaid);
+            var result = await aracHasarService.Get(id, firmaid);
             return Json(result);
         }
 
@@ -57,12 +50,12 @@ namespace aracyonetim.web.Controllers
                 aracHasar.CreatorId = HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId).Value;
                 if (aracHasar.Id == 0)
                 {
-                    await _aracHasarService.Save(aracHasar);
+                    await aracHasarService.Save(aracHasar);
                 }
                 else
                 {
-                    var model = await _aracHasarService.Get(aracHasar.Id, aracHasar.FirmaId.Value);
-                    await _aracHasarService.Update(aracHasar);
+                    var model = await aracHasarService.Get(aracHasar.Id, aracHasar.FirmaId.Value);
+                    await aracHasarService.Update(aracHasar);
                 }
 
                 return Json(true);
@@ -78,7 +71,7 @@ namespace aracyonetim.web.Controllers
             try
             {
                 var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-                await _aracHasarService.Delete(id, firmaid);
+                await aracHasarService.Delete(id, firmaid);
                 return Json(true);
             }
             catch (Exception e)

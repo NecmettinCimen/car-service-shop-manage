@@ -62,7 +62,7 @@
 
 ![aracyonetim_gif](./img/aracyonetim_gif.gif)
 
-aracyonetim App .Net Core 7.0
+aracyonetim App .Net Core 9.0
 
 A list of commonly used resources that I find helpful are listed in the acknowledgements.
 
@@ -81,7 +81,7 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-https://dotnet.microsoft.com/download/dotnet/7.0
+https://dotnet.microsoft.com/download/dotnet/9.0
 
 ### Installation
 
@@ -145,7 +145,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@Necmettin Cimen](https://necmettin.me) - [mail@necmettin.me](mailto:mail@necmettin.me)
+Necmettin Çimen - [@Necmettin Cimen](https://necmettincimen.github.io) - [necmettin.dev@gmail.com](mailto:necmettin.dev@gmail.com)
 
 Project Link: [https://github.com/necmettincimen/aracyonetim](https://github.com/necmettincimen/aracyonetim)
 

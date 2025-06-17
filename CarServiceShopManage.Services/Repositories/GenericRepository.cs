@@ -1,14 +1,14 @@
-using aracyonetim.database;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CarServiceShopManage.Database;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Repositories
+namespace CarServiceShopManage.Services.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {

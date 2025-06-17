@@ -1,11 +1,11 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IAracOrtakService
     {
@@ -15,28 +15,20 @@ namespace aracyonetim.services.Services
         public Task Delete(int id, int firmaid);
         public Task<AracOrtak> Get(int id, int firmaid);
     }
-    public class AracOrtakService : IAracOrtakService
+    public class AracOrtakService(
+        IAracOrtakRepository aracOrtakRepository,
+        IKullaniciRepository kullaniciRepository,
+        IAracRepository aracRepository,
+        ILookupListRepository lookupListRepository)
+        : IAracOrtakService
     {
-        private readonly IAracOrtakRepository _aracOrtakRepository;
-        private readonly IAracRepository _aracRepository;
-        private readonly IKullaniciRepository _kullaniciRepository;
-        private readonly ILookupListRepository _lookupListRepository;
-
-        public AracOrtakService(IAracOrtakRepository aracOrtakRepository,
-            IKullaniciRepository kullaniciRepository,
-            IAracRepository aracRepository,
-            ILookupListRepository lookupListRepository)
-        {
-            _aracOrtakRepository = aracOrtakRepository;
-            _kullaniciRepository = kullaniciRepository;
-            _lookupListRepository = lookupListRepository;
-            _aracRepository = aracRepository;
-        }
+        private readonly IKullaniciRepository _kullaniciRepository = kullaniciRepository;
+        private readonly ILookupListRepository _lookupListRepository = lookupListRepository;
 
         public async Task<DataGridDto<AracOrtakListDto>> List(int firmaid)
         {
-            return await GenerateDataGridDto<AracOrtakListDto>.Store((from a in _aracOrtakRepository.All().Where(w => w.FirmaId == firmaid)
-                                                                      join arac in _aracRepository.All() on a.AracId equals arac.Id
+            return await GenerateDataGridDto<AracOrtakListDto>.Store((from a in aracOrtakRepository.All().Where(w => w.FirmaId == firmaid)
+                                                                      join arac in aracRepository.All() on a.AracId equals arac.Id
                                                                     select new AracOrtakListDto
                                                                     {
                                                                         Id = a.Id,
@@ -50,23 +42,23 @@ namespace aracyonetim.services.Services
 
         public async Task<int> Save(AracOrtak model)
         {
-            return await _aracOrtakRepository.Save(model);
+            return await aracOrtakRepository.Save(model);
         }
 
         public async Task<bool> Update(AracOrtak model)
         {
-            await _aracOrtakRepository.Update(model);
+            await aracOrtakRepository.Update(model);
             return true;
         }
 
         public async Task Delete(int id, int firmaid)
         {
-            await _aracOrtakRepository.Delete(id, firmaid);
+            await aracOrtakRepository.Delete(id, firmaid);
         }
 
         public async Task<AracOrtak> Get(int id, int firmaid)
         {
-            return await _aracOrtakRepository.All().Where(f => f.Id == id && f.FirmaId == firmaid).FirstAsync();
+            return await aracOrtakRepository.All().Where(f => f.Id == id && f.FirmaId == firmaid).FirstAsync();
         }
     }
 }

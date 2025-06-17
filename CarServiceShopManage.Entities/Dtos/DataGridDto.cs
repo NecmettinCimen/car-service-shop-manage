@@ -1,8 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-namespace aracyonetim.entities.Dtos
+using Microsoft.EntityFrameworkCore;
+
+namespace CarServiceShopManage.Entities.Dtos
 {
     public class DataGridDto<T> where T : class
     {

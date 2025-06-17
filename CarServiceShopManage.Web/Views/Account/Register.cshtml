@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group">
                         <label>Telefon</label>
-                        <input type="number" maxlength="15" name="Telefon" required class="form-control" placeholder="Lütfen telefon numaranızı giriniz.">
+                        <input type="tel" maxlength="15" name="Telefon" required class="form-control" placeholder="(5XX) XXX XX XX"  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '($1) $2 $3 $4').substring(0, 15)">
                     </div>
                     <div class="form-group">
                         <div class="d-flex justify-content-between mg-b-5">

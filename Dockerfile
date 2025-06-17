@@ -1,20 +1,20 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build-env
 WORKDIR /App
 ARG BUILD_NUMBER
 
 # Copy everything
-COPY ./aracyonetim.web/ ./aracyonetim.web/
-COPY ./aracyonetim.database/ ./aracyonetim.database/
-COPY ./aracyonetim.services/ ./aracyonetim.services/
-COPY ./aracyonetim.entities/ ./aracyonetim.entities/
+COPY ./CarServiceShopManage.Web/ ./CarServiceShopManage.Web/
+COPY ./CarServiceShopManage.Database/ ./CarServiceShopManage.Database/
+COPY ./CarServiceShopManage.Services/ ./CarServiceShopManage.Services/
+COPY ./CarServiceShopManage.Entities/ ./CarServiceShopManage.Entities/
 
 # Build and publish a release
-RUN dotnet publish ./aracyonetim.web/aracyonetim.web.csproj -c Release -o out
+RUN dotnet publish ./CarServiceShopManage.Web/CarServiceShopManage.Web.csproj -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /App
 COPY --from=build-env /App/out .
 
-ENTRYPOINT ["dotnet", "aracyonetim.web.dll"]
+ENTRYPOINT ["dotnet", "CarServiceShopManage.Web.dll"]
 

@@ -1,31 +1,22 @@
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Services;
-using aracyonetim.web.Filters;
-using aracyonetim.web.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Services;
+using CarServiceShopManage.Web.Filters;
+using CarServiceShopManage.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace aracyonetim.web.Controllers
+namespace CarServiceShopManage.Web.Controllers
 {
 
     [UserFilter]
-    public class MusterilerController : Controller, IGenericController<Musteri>
+    public class MusterilerController(
+        IMusteriService musteriService,
+        IKullaniciService kullaniciService,
+        IRolService rolService)
+        : Controller, IGenericController<Musteri>
     {
-        private readonly IMusteriService _musteriService;
-        private readonly IKullaniciService _kullaniciService;
-        private readonly IRolService _rolService;
-
-        public MusterilerController(IMusteriService musteriService,
-            IKullaniciService kullaniciService,
-            IRolService rolService)
-        {
-            _musteriService = musteriService;
-            _kullaniciService = kullaniciService;
-            _rolService = rolService;
-        }
-
         [MenuFilter]
         public IActionResult Index()
         {
@@ -35,15 +26,15 @@ namespace aracyonetim.web.Controllers
         public async Task<IActionResult> List()
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _musteriService.List(firmaid);
+            var result = await musteriService.List(firmaid);
             return Json(result);
         }
 
         public async Task<IActionResult> Get(int id)
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _musteriService.Get(id, firmaid);
-            result.Kullanici = await _kullaniciService.Find(result.KullaniciId);
+            var result = await musteriService.Get(id, firmaid);
+            result.Kullanici = await kullaniciService.Find(result.KullaniciId);
             return Json(result);
         }
 
@@ -53,21 +44,21 @@ namespace aracyonetim.web.Controllers
             {
                 musteri.FirmaId = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
                 musteri.CreatorId = HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId).Value;
-                musteri.Kullanici.RolId = await _rolService.MusteriRolId();
+                musteri.Kullanici.RolId = await rolService.MusteriRolId();
                 if (musteri.Id == 0)
                 {
-                    musteri.KullaniciId = await _kullaniciService.Save(musteri.Kullanici);
+                    musteri.KullaniciId = await kullaniciService.Save(musteri.Kullanici);
                     musteri.Kullanici = null;
-                    await _musteriService.Save(musteri);
+                    await musteriService.Save(musteri);
                 }
                 else
                 {
-                    var model = await _musteriService.Get(musteri.Id, musteri.FirmaId.Value);
+                    var model = await musteriService.Get(musteri.Id, musteri.FirmaId.Value);
                     musteri.Kullanici.Id = model.KullaniciId;
                     musteri.KullaniciId = model.KullaniciId;
-                    await _kullaniciService.Update(musteri.Kullanici);
+                    await kullaniciService.Update(musteri.Kullanici);
 
-                    await _musteriService.Update(musteri);
+                    await musteriService.Update(musteri);
                 }
 
                 return Json(true);
@@ -83,7 +74,7 @@ namespace aracyonetim.web.Controllers
             try
             {
                 var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-                await _musteriService.Delete(id, firmaid);
+                await musteriService.Delete(id, firmaid);
                 return Json(true);
             }
             catch (Exception e)

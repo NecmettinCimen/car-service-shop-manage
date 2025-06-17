@@ -1,13 +1,9 @@
-using aracyonetim.database;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
+using CarServiceShopManage.Database;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
 
-namespace aracyonetim.services.Repositories
+namespace CarServiceShopManage.Services.Repositories
 {
-    public class LookupListRepository : GenericRepository<LookupList>, ILookupListRepository
-    {
-        public LookupListRepository(AracYonetimContext dbContext) : base(dbContext)
-        {
-        }
-    }
+    public class LookupListRepository(AracYonetimContext dbContext)
+        : GenericRepository<LookupList>(dbContext), ILookupListRepository;
 }

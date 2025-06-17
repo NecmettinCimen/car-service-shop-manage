@@ -1,6 +1,6 @@
-using aracyonetim.entities.Tables;
+using CarServiceShopManage.Entities.Tables;
 
-namespace aracyonetim.entities.Dtos
+namespace CarServiceShopManage.Entities.Dtos
 {
     public class AracHasarListDto 
     {

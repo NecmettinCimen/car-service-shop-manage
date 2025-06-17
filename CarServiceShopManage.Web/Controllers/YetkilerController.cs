@@ -1,33 +1,26 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Services;
-using aracyonetim.web.Filters;
-using aracyonetim.web.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Services;
+using CarServiceShopManage.Web.Filters;
+using CarServiceShopManage.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
-namespace aracyonetim.web.Controllers
+namespace CarServiceShopManage.Web.Controllers
 {
     [UserFilter]
-    public class YetkilerController : Controller, IGenericController<YetkilerSaveDto>
+    public class YetkilerController(IRolService rolService) : Controller, IGenericController<YetkilerSaveDto>
     {
-        private readonly IRolService _rolService;
-
-        public YetkilerController(IRolService rolService)
-        {
-            _rolService = rolService;
-        }
-
         public async Task<IActionResult> Select()
         {
             var firmaid =
                 HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _rolService.Select(firmaid);
+            var result = await rolService.Select(firmaid);
             return Json(result);
         }
 
@@ -42,7 +35,7 @@ namespace aracyonetim.web.Controllers
         {
             var firmaid =
                 HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _rolService.List(firmaid);
+            var result = await rolService.List(firmaid);
             return Json(result);
         }
 
@@ -50,7 +43,7 @@ namespace aracyonetim.web.Controllers
         {
             var firmaid =
                 HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _rolService.Get(id, firmaid);
+            var result = await rolService.Get(id, firmaid);
             return Json(result);
         }
 
@@ -66,12 +59,12 @@ namespace aracyonetim.web.Controllers
                     Id = yetkilerSaveDto.Id
                 };
                 if (yetkilerSaveDto.Id == 0)
-                    await _rolService.Save(rol, yetkilerSaveDto.Menuler);
+                    await rolService.Save(rol, yetkilerSaveDto.Menuler);
                 else
                 {
-                    var model = await _rolService.Find(rol.Id, rol.FirmaId.Value);
+                    var model = await rolService.Find(rol.Id, rol.FirmaId.Value);
                     model.Isim = rol.Isim;
-                    await _rolService.Update(model, yetkilerSaveDto.Menuler);
+                    await rolService.Update(model, yetkilerSaveDto.Menuler);
                 }
 
                 return Json(true);
@@ -88,7 +81,7 @@ namespace aracyonetim.web.Controllers
             {
                 var firmaid =
                     HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-                await _rolService.Delete(id, firmaid);
+                await rolService.Delete(id, firmaid);
                 return Json(true);
             }
             catch (Exception e)

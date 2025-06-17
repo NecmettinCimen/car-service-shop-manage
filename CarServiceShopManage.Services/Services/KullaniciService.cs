@@ -1,11 +1,11 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IKullaniciService
     {
@@ -17,54 +17,63 @@ namespace aracyonetim.services.Services
         public Task<bool> EpostaCheck(string eposta);
         public Task<DataGridDto<KullaniciListDto>> List(int firmaid);
     }
-    public class KullaniciService : IKullaniciService
+    public class KullaniciService(
+        IKullaniciRepository kullaniciRepository,
+        IRolRepository rolRepository)
+        : IKullaniciService
     {
-        private readonly IKullaniciRepository _kullaniciRepository;
-        private readonly IRolRepository _rolRepository;
-
-        public KullaniciService(IKullaniciRepository kullaniciRepository,
-            IRolRepository rolRepository)
-        {
-            _kullaniciRepository = kullaniciRepository;
-            _rolRepository = rolRepository;
-        }
         public async Task<int> Save(Kullanici model)
         {
-            return await _kullaniciRepository.Save(model);
+            // Parolayı şifrele
+            model.Parola = PasswordHelper.HashPassword(model.Parola);
+            return await kullaniciRepository.Save(model);
         }
         public async Task Update(Kullanici model)
         {
-            await _kullaniciRepository.Update(model);
+            // Eğer parola değiştirilmişse şifrele
+            var existingUser = await kullaniciRepository.Find(f => f.Id == model.Id).FirstOrDefaultAsync();
+            if (existingUser != null && existingUser.Parola != model.Parola)
+            {
+                model.Parola = PasswordHelper.HashPassword(model.Parola);
+            }
+            await kullaniciRepository.Update(model);
         }
 
         public async Task<Kullanici> Login(string eposta, string parola)
         {
-            return await _kullaniciRepository
-                .Find(f => f.Eposta == eposta && f.Parola == parola)
+            var kullanici = await kullaniciRepository
+                .Find(f => f.Eposta == eposta)
                 .FirstOrDefaultAsync();
+            
+            if (kullanici != null && PasswordHelper.VerifyPassword(parola, kullanici.Parola))
+            {
+                return kullanici;
+            }
+            
+            return null;
         }
         public async Task<Kullanici> Find(int id)
         {
-            return await _kullaniciRepository
+            return await kullaniciRepository
                 .Find(f => f.Id == id)
                 .FirstOrDefaultAsync();
         }
 
         public async Task Delete(int id, int firmaid)
         {
-            await _kullaniciRepository.Delete(id, firmaid);
+            await kullaniciRepository.Delete(id, firmaid);
         }
 
         public async Task<bool> EpostaCheck(string email)
         {
-            return await _kullaniciRepository
+            return await kullaniciRepository
                 .All().AnyAsync(f => f.Eposta == email);
         }
 
         public async Task<DataGridDto<KullaniciListDto>> List(int firmaid)
         {
-            return await GenerateDataGridDto<KullaniciListDto>.Store((from k in _kullaniciRepository.All(firmaid)
-                                                                      join i in _rolRepository.All() on k.RolId equals i.Id
+            return await GenerateDataGridDto<KullaniciListDto>.Store((from k in kullaniciRepository.All(firmaid)
+                                                                      join i in rolRepository.All() on k.RolId equals i.Id
                                                                       select new KullaniciListDto
                                                                       {
                                                                           Adres = k.Adres,

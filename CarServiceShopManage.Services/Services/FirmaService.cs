@@ -1,9 +1,9 @@
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IFirmaService
     {
@@ -11,26 +11,20 @@ namespace aracyonetim.services.Services
         public Task Update(Firma model);
         public Task<Firma> Get(int id);
     }
-    public class FirmaService : IFirmaService
+    public class FirmaService(IFirmaRepository firmaRepository) : IFirmaService
     {
-        private readonly IFirmaRepository _firmaRepository;
-
-        public FirmaService(IFirmaRepository firmaRepository)
-        {
-            _firmaRepository = firmaRepository;
-        }
         public async Task<int> Save(Firma model)
         {
-            return await _firmaRepository.Save(model);
+            return await firmaRepository.Save(model);
         }
         public async Task Update(Firma model)
         {
-            await _firmaRepository.Update(model);
+            await firmaRepository.Update(model);
         }
 
         public async Task<Firma> Get(int id)
         {
-            return await _firmaRepository.All().FirstAsync(f => f.Id == id);
+            return await firmaRepository.All().FirstAsync(f => f.Id == id);
         }
 
     }

@@ -1,11 +1,11 @@
-using aracyonetim.entities.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Tables;
 
-namespace aracyonetim.services.Interfaces
+namespace CarServiceShopManage.Services.Interfaces
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {

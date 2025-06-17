@@ -1,11 +1,11 @@
-using aracyonetim.entities.Dtos;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Dtos;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace aracyonetim.services.Services
+namespace CarServiceShopManage.Services.Services
 {
     public interface IMusteriService
     {
@@ -15,28 +15,19 @@ namespace aracyonetim.services.Services
         public Task Delete(int id, int firmaid);
         public Task<Musteri> Get(int id, int firmaid);
     }
-    public class MusteriService : IMusteriService
+    public class MusteriService(
+        IMusteriRepository musteriRepository,
+        IKullaniciRepository kullaniciRepository,
+        ILookupListRepository lookupListRepository)
+        : IMusteriService
     {
-        private readonly IMusteriRepository _musteriRepository;
-        private readonly IKullaniciRepository _kullaniciRepository;
-        private readonly ILookupListRepository _lookupListRepository;
-
-        public MusteriService(IMusteriRepository musteriRepository,
-            IKullaniciRepository kullaniciRepository,
-            ILookupListRepository lookupListRepository)
-        {
-            _musteriRepository = musteriRepository;
-            _kullaniciRepository = kullaniciRepository;
-            _lookupListRepository = lookupListRepository;
-        }
-
         public async Task<DataGridDto<MusteriListDto>> List(int firmaid)
         {
-            return await GenerateDataGridDto<MusteriListDto>.Store((from a in _musteriRepository.All().Where(w => w.FirmaId == firmaid)
-                                                                    join u in _kullaniciRepository.All() on a.KullaniciId equals u.Id
-                                                                    join ilce in _lookupListRepository.All() on u.IlceId equals ilce.Id into ilcen
+            return await GenerateDataGridDto<MusteriListDto>.Store((from a in musteriRepository.All().Where(w => w.FirmaId == firmaid)
+                                                                    join u in kullaniciRepository.All() on a.KullaniciId equals u.Id
+                                                                    join ilce in lookupListRepository.All() on u.IlceId equals ilce.Id into ilcen
                                                                     from ilce in ilcen.DefaultIfEmpty()
-                                                                    join il in _lookupListRepository.All() on ilce.ParentId equals il.Id into iln
+                                                                    join il in lookupListRepository.All() on ilce.ParentId equals il.Id into iln
                                                                     from il in iln.DefaultIfEmpty()
                                                                     select new MusteriListDto
                                                                     {
@@ -60,23 +51,23 @@ namespace aracyonetim.services.Services
 
         public async Task<int> Save(Musteri model)
         {
-            return await _musteriRepository.Save(model);
+            return await musteriRepository.Save(model);
         }
 
         public async Task<bool> Update(Musteri model)
         {
-            await _musteriRepository.Update(model);
+            await musteriRepository.Update(model);
             return true;
         }
 
         public async Task Delete(int id, int firmaid)
         {
-            await _musteriRepository.Delete(id, firmaid);
+            await musteriRepository.Delete(id, firmaid);
         }
 
         public async Task<Musteri> Get(int id, int firmaid)
         {
-            return await _musteriRepository.All().Where(f => f.Id == id && f.FirmaId == firmaid).FirstAsync();
+            return await musteriRepository.All().Where(f => f.Id == id && f.FirmaId == firmaid).FirstAsync();
         }
     }
 }

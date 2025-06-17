@@ -1,24 +1,17 @@
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Services;
-using aracyonetim.web.Filters;
-using aracyonetim.web.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Services;
+using CarServiceShopManage.Web.Filters;
+using CarServiceShopManage.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace aracyonetim.web.Controllers
+namespace CarServiceShopManage.Web.Controllers
 {
     [UserFilter]
-    public class KullanicilarController : Controller, IGenericController<Kullanici>
+    public class KullanicilarController(IKullaniciService kullaniciService) : Controller, IGenericController<Kullanici>
     {
-        private readonly IKullaniciService _kullaniciService;
-
-        public KullanicilarController(IKullaniciService kullaniciService)
-        {
-            _kullaniciService = kullaniciService;
-        }
-
         [MenuFilter]
         public IActionResult Index()
         {
@@ -28,13 +21,13 @@ namespace aracyonetim.web.Controllers
         public async Task<IActionResult> List()
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-            var result = await _kullaniciService.List(firmaid);
+            var result = await kullaniciService.List(firmaid);
             return Json(result);
         }
 
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _kullaniciService.Find(id);
+            var result = await kullaniciService.Find(id);
             return Json(result);
         }
 
@@ -46,11 +39,11 @@ namespace aracyonetim.web.Controllers
                 kullanici.CreatorId = HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId).Value;
                 if (kullanici.Id == 0)
                 {
-                    await _kullaniciService.Save(kullanici);
+                    await kullaniciService.Save(kullanici);
                 }
                 else
                 {
-                    await _kullaniciService.Update(kullanici);
+                    await kullaniciService.Update(kullanici);
                 }
 
                 return Json(true);
@@ -66,7 +59,7 @@ namespace aracyonetim.web.Controllers
             try
             {
                 var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
-                await _kullaniciService.Delete(id, firmaid);
+                await kullaniciService.Delete(id, firmaid);
                 return Json(true);
             }
             catch (Exception e)

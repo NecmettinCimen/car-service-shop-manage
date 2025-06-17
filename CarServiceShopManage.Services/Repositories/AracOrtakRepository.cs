@@ -1,13 +1,9 @@
-using aracyonetim.database;
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Interfaces;
+using CarServiceShopManage.Database;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Interfaces;
 
-namespace aracyonetim.services.Repositories
+namespace CarServiceShopManage.Services.Repositories
 {
-    public class AracOrtakRepository : GenericRepository<AracOrtak>, IAracOrtakRepository
-    {
-        public AracOrtakRepository(AracYonetimContext dbContext) : base(dbContext)
-        {
-        }
-    }
+    public class AracOrtakRepository(AracYonetimContext dbContext)
+        : GenericRepository<AracOrtak>(dbContext), IAracOrtakRepository;
 }

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace aracyonetim.entities.Tables
+namespace CarServiceShopManage.Entities.Tables
 {
     public class AracOrtak : BaseEntity
     {

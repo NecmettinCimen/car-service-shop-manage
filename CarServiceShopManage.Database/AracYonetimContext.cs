@@ -1,14 +1,13 @@
-﻿using aracyonetim.entities.Tables;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using CarServiceShopManage.Entities.Tables;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
-namespace aracyonetim.database
+namespace CarServiceShopManage.Database
 {
-    public class AracYonetimContext : DbContext
+    public class AracYonetimContext(DbContextOptions<AracYonetimContext> options) : DbContext(options)
     {
-        public AracYonetimContext(DbContextOptions<AracYonetimContext> options) : base(options) { }
-
         public DbSet<Firma> Firma { get; set; }
         public DbSet<Kullanici> Kullanici { get; set; }
         public DbSet<Arac> Arac { get; set; }
@@ -118,6 +117,17 @@ namespace aracyonetim.database
             );
 
 
+        }
+    }
+
+    public class AracYonetimContextFactory : IDesignTimeDbContextFactory<AracYonetimContext>
+    {
+        public AracYonetimContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AracYonetimContext>();
+            optionsBuilder.UseSqlite("Data Source=CarServiceShopManage.db");
+
+            return new AracYonetimContext(optionsBuilder.Options);
         }
     }
 }

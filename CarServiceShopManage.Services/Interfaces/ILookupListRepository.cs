@@ -1,6 +1,6 @@
-using aracyonetim.entities.Tables;
+using CarServiceShopManage.Entities.Tables;
 
-namespace aracyonetim.services.Interfaces
+namespace CarServiceShopManage.Services.Interfaces
 {
     public interface ILookupListRepository : IGenericRepository<LookupList>
     {

@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace aracyonetim.web.Migrations
+namespace CarServiceShopManage.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,15 +17,15 @@ namespace aracyonetim.web.Migrations
                 name: "Firma",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Isim = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true),
-                    FirmaId1 = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Isim = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true),
+                    FirmaId1 = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,19 +38,109 @@ namespace aracyonetim.web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AracGider",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AracId = table.Column<int>(type: "INTEGER", nullable: false),
+                    GiderTip = table.Column<string>(type: "TEXT", nullable: true),
+                    Fiyat = table.Column<double>(type: "REAL", nullable: true),
+                    GiderTarih = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Aciklama = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AracGider", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AracGider_Firma_FirmaId",
+                        column: x => x.FirmaId,
+                        principalTable: "Firma",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AracHasar",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AracId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SagArkaCamurluk = table.Column<int>(type: "INTEGER", nullable: false),
+                    ArkaKaput = table.Column<int>(type: "INTEGER", nullable: false),
+                    SolArkaCamurluk = table.Column<int>(type: "INTEGER", nullable: false),
+                    SagArkaKapi = table.Column<int>(type: "INTEGER", nullable: false),
+                    SagOnKapi = table.Column<int>(type: "INTEGER", nullable: false),
+                    Tavan = table.Column<int>(type: "INTEGER", nullable: false),
+                    SolArkaKapi = table.Column<int>(type: "INTEGER", nullable: false),
+                    SolOnKapi = table.Column<int>(type: "INTEGER", nullable: false),
+                    SagOnCamurluk = table.Column<int>(type: "INTEGER", nullable: false),
+                    MotorKaputu = table.Column<int>(type: "INTEGER", nullable: false),
+                    SolOnCamurluk = table.Column<int>(type: "INTEGER", nullable: false),
+                    OnTampon = table.Column<int>(type: "INTEGER", nullable: false),
+                    ArkaTampon = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AracHasar", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AracHasar_Firma_FirmaId",
+                        column: x => x.FirmaId,
+                        principalTable: "Firma",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AracOrtak",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AracId = table.Column<int>(type: "INTEGER", nullable: false),
+                    OrtakAdi = table.Column<string>(type: "TEXT", nullable: true),
+                    Oran = table.Column<double>(type: "REAL", nullable: false),
+                    Fiyat = table.Column<double>(type: "REAL", nullable: false),
+                    Aciklama = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AracOrtak", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AracOrtak_Firma_FirmaId",
+                        column: x => x.FirmaId,
+                        principalTable: "Firma",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LookupList",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Tip = table.Column<int>(type: "int", nullable: false),
-                    Isim = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ParentId = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Tip = table.Column<int>(type: "INTEGER", nullable: false),
+                    Isim = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    ParentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,14 +156,14 @@ namespace aracyonetim.web.Migrations
                 name: "Rol",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Isim = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Isim = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,36 +179,36 @@ namespace aracyonetim.web.Migrations
                 name: "Arac",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Plaka = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    MarkaId = table.Column<int>(type: "int", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Motor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Ticari = table.Column<bool>(type: "bit", nullable: false),
-                    Yil = table.Column<int>(type: "int", nullable: false),
-                    Km = table.Column<int>(type: "int", nullable: false),
-                    YakitId = table.Column<int>(type: "int", nullable: true),
-                    Otomatik = table.Column<bool>(type: "bit", nullable: false),
-                    RuhsatSahibiAdSoyad = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EnSonBakimYetkiliServis = table.Column<bool>(type: "bit", nullable: false),
-                    AlisTarihi = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SatisTarihi = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AlisGunuDolar = table.Column<double>(type: "float", nullable: true),
-                    SatisGunuDolar = table.Column<double>(type: "float", nullable: true),
-                    AlisFiyat = table.Column<double>(type: "float", nullable: true),
-                    SatisFiyat = table.Column<double>(type: "float", nullable: true),
-                    SahibindenIlanNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SahibindenAciklama = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ExperBilgisi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HasarKaydiBilgisi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AliciTC = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    SaticiTC = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Plaka = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    MarkaId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Model = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Motor = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Ticari = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Yil = table.Column<int>(type: "INTEGER", nullable: false),
+                    Km = table.Column<int>(type: "INTEGER", nullable: false),
+                    YakitId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Otomatik = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RuhsatSahibiAdSoyad = table.Column<string>(type: "TEXT", nullable: true),
+                    EnSonBakimYetkiliServis = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AlisTarihi = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    SatisTarihi = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    AlisGunuDolar = table.Column<double>(type: "REAL", nullable: true),
+                    SatisGunuDolar = table.Column<double>(type: "REAL", nullable: true),
+                    AlisFiyat = table.Column<double>(type: "REAL", nullable: true),
+                    SatisFiyat = table.Column<double>(type: "REAL", nullable: true),
+                    SahibindenIlanNo = table.Column<string>(type: "TEXT", nullable: true),
+                    SahibindenAciklama = table.Column<string>(type: "TEXT", nullable: true),
+                    ExperBilgisi = table.Column<string>(type: "TEXT", nullable: true),
+                    HasarKaydiBilgisi = table.Column<string>(type: "TEXT", nullable: true),
+                    AliciTC = table.Column<string>(type: "TEXT", maxLength: 15, nullable: true),
+                    SaticiTC = table.Column<string>(type: "TEXT", maxLength: 15, nullable: true),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,21 +234,21 @@ namespace aracyonetim.web.Migrations
                 name: "Kullanici",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AdSoyad = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Eposta = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Parola = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Telefon = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Unvan = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IlceId = table.Column<int>(type: "int", nullable: false),
-                    Adres = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    RolId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AdSoyad = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Eposta = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Parola = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Telefon = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false),
+                    Unvan = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    IlceId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Adres = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true),
+                    RolId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -180,15 +270,15 @@ namespace aracyonetim.web.Migrations
                 name: "RolMenu",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MenuNo = table.Column<int>(type: "int", nullable: false),
-                    RolId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MenuNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    RolId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -210,19 +300,19 @@ namespace aracyonetim.web.Migrations
                 name: "BakimTalebi",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KullaniciId = table.Column<int>(type: "int", nullable: false),
-                    AracId = table.Column<int>(type: "int", nullable: false),
-                    BakimTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Aciklama = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    DurumId = table.Column<int>(type: "int", nullable: false),
-                    YetkiliServisAciklama = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    KullaniciId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AracId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BakimTarihi = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Aciklama = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    DurumId = table.Column<int>(type: "INTEGER", nullable: false),
+                    YetkiliServisAciklama = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -256,21 +346,21 @@ namespace aracyonetim.web.Migrations
                 name: "Musteri",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KullaniciId = table.Column<int>(type: "int", nullable: false),
-                    SirketAd = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    SirketTelefon = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    EvTelefon = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    TC = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
-                    CinsiyetErkek = table.Column<bool>(type: "bit", nullable: false),
-                    SirketAraci = table.Column<bool>(type: "bit", nullable: false),
-                    SirketAdres = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Status = table.Column<short>(type: "smallint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirmaId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    KullaniciId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SirketAd = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    SirketTelefon = table.Column<string>(type: "TEXT", maxLength: 15, nullable: true),
+                    EvTelefon = table.Column<string>(type: "TEXT", maxLength: 15, nullable: true),
+                    TC = table.Column<string>(type: "TEXT", maxLength: 11, nullable: true),
+                    CinsiyetErkek = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SirketAraci = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SirketAdres = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true),
+                    Status = table.Column<short>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CreatorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirmaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1479,6 +1569,21 @@ namespace aracyonetim.web.Migrations
                 column: "YakitId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AracGider_FirmaId",
+                table: "AracGider",
+                column: "FirmaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AracHasar_FirmaId",
+                table: "AracHasar",
+                column: "FirmaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AracOrtak_FirmaId",
+                table: "AracOrtak",
+                column: "FirmaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BakimTalebi_AracId",
                 table: "BakimTalebi",
                 column: "AracId");
@@ -1547,6 +1652,15 @@ namespace aracyonetim.web.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AracGider");
+
+            migrationBuilder.DropTable(
+                name: "AracHasar");
+
+            migrationBuilder.DropTable(
+                name: "AracOrtak");
+
             migrationBuilder.DropTable(
                 name: "BakimTalebi");
 

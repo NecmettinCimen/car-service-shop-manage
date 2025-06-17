@@ -1,28 +1,21 @@
-using aracyonetim.entities.Tables;
-using aracyonetim.services.Services;
-using aracyonetim.web.Filters;
-using aracyonetim.web.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using CarServiceShopManage.Entities.Tables;
+using CarServiceShopManage.Services.Services;
+using CarServiceShopManage.Web.Filters;
+using CarServiceShopManage.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace aracyonetim.web.Controllers
+namespace CarServiceShopManage.Web.Controllers
 {
 
     [UserFilter]
-    public class YetkiliServisController : Controller
+    public class YetkiliServisController(
+        IBakimTalebiService bakimTalebiService,
+        IAracService aracService)
+        : Controller
     {
-        private readonly IBakimTalebiService _bakimTalebiService;
-        private readonly IAracService _aracService;
-
-        public YetkiliServisController(IBakimTalebiService bakimTalebiService,
-            IAracService aracService)
-        {
-            _bakimTalebiService = bakimTalebiService;
-            _aracService = aracService;
-        }
-
         [MenuFilter]
         public IActionResult Index()
         {
@@ -33,7 +26,7 @@ namespace aracyonetim.web.Controllers
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
 
-            var result = await _bakimTalebiService.List(firmaid);
+            var result = await bakimTalebiService.List(firmaid);
             return Json(result);
         }
 
@@ -41,8 +34,8 @@ namespace aracyonetim.web.Controllers
         {
             var firmaid = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
 
-            var result = await _bakimTalebiService.Get(id, firmaid);
-            result.Arac = await _aracService.Get(result.AracId, firmaid);
+            var result = await bakimTalebiService.Get(id, firmaid);
+            result.Arac = await aracService.Get(result.AracId, firmaid);
             return Json(result);
         }
 
@@ -53,11 +46,11 @@ namespace aracyonetim.web.Controllers
                 bakimTalebi.FirmaId = HttpContext.Session.GetInt32(Metrics.SessionKeys.FirmaId).Value;
 
                 bakimTalebi.CreatorId = HttpContext.Session.GetInt32(Metrics.SessionKeys.UserId).Value;
-                var model = await _bakimTalebiService.Get(bakimTalebi.Id, bakimTalebi.FirmaId.Value);
+                var model = await bakimTalebiService.Get(bakimTalebi.Id, bakimTalebi.FirmaId.Value);
                 model.DurumId = bakimTalebi.DurumId;
                 model.YetkiliServisAciklama = bakimTalebi.YetkiliServisAciklama;
 
-                await _bakimTalebiService.Update(model);
+                await bakimTalebiService.Update(model);
 
                 return Json(true);
             }

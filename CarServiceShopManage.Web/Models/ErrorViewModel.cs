@@ -1,4 +1,4 @@
-namespace aracyonetim.web.Models
+namespace CarServiceShopManage.Web.Models
 {
     public class ErrorViewModel
     {

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.Collections.Generic;
 
-namespace aracyonetim.entities.Dtos
+namespace CarServiceShopManage.Entities.Dtos
 {
     public class YetkilerSaveDto
     {

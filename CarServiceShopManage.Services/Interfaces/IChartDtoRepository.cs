@@ -1,6 +1,6 @@
-using aracyonetim.entities.Dtos;
+using CarServiceShopManage.Entities.Dtos;
 
-namespace aracyonetim.services.Interfaces
+namespace CarServiceShopManage.Services.Interfaces
 {
     public interface IChartDtoRepository : IGenericRepository<ChartDto>
     {
